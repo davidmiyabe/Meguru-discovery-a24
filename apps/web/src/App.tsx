@@ -11,7 +11,8 @@ import type { EventItem } from './types'
 import DraftPage from './pages/DraftPage';
 import ProfilePage from './pages/ProfilePage';
 import TripPage from './pages/TripPage';
-
+import './App.css'
+import { useTrips } from './lib/queries'
 function App() {
   const [currentDay, setCurrentDay] = useState(1)
   const [inviteOpen, setInviteOpen] = useState(false)
@@ -37,6 +38,8 @@ function App() {
   const handleOptimize = () => {
     createDraftItinerary(currentDay)
   }
+  const [count, setCount] = useState(0)
+  const { data: trips } = useTrips()
 
   return (
     <>
