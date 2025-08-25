@@ -15,8 +15,8 @@ export default function MapView({ events, suggestions, onAdd, onReplace, onSelec
   const height = 180
   const points = events.map((e) => `${e.position.x},${e.position.y}`).join(' ')
   return (
-    <div className="border p-2">
-      <h2 className="font-bold mb-2">Map</h2>
+    <div className="p-2 rounded bg-night text-cream fade-in">
+      <h2 className="mb-2 font-display font-bold text-gold">Map</h2>
       <div className="relative" style={{ width, height }}>
         <svg className="absolute top-0 left-0 pointer-events-none" width={width} height={height}>
           <polyline points={points} stroke="blue" strokeWidth={2} fill="none" />
@@ -41,11 +41,11 @@ export default function MapView({ events, suggestions, onAdd, onReplace, onSelec
           >
             <div className="w-3 h-3 bg-blue-600 rounded-full -translate-x-1/2 -translate-y-1/2" />
             {activeId === e.id && e.alternates && (
-              <div className="absolute bg-white border p-1 mt-1 text-sm">
+              <div className="absolute bg-night text-gold p-1 mt-1 text-sm rounded slide-up">
                 {e.alternates.map((alt) => (
                   <button
                     key={alt.id}
-                    className="block text-left w-full hover:bg-gray-100 px-2 py-1"
+                    className="block text-left w-full px-2 py-1 hover:bg-gold/20"
                     onClick={(ev) => {
                       ev.stopPropagation()
                       onReplace(e.id, alt)

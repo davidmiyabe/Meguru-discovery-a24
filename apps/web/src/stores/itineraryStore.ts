@@ -32,3 +32,5 @@ export const useItineraryStore = create<ItineraryState>((set) => ({
 
 export const useLikes = () => useItineraryStore((s) => s.liked.length)
 export const useAdds = () => useItineraryStore((s) => s.added.length)
+export const useLikedIds = () => useItineraryStore((s) => s.liked)
+export const useAddedIds = () => useItineraryStore((s) => s.added)

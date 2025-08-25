@@ -4,7 +4,12 @@ import {
   type Suggestion,
   type TripCriteria,
 } from '../lib/services/suggestions'
-import { useItineraryStore, useLikes, useAdds } from '../stores/itineraryStore'
+import {
+  useItineraryStore,
+  useLikedIds,
+  useAddedIds,
+} from '../stores/itineraryStore'
+import { buildTasteProfile } from '../lib/services/taste'
 import { Button, Card } from '../components/ui'
 import { MIN_LIKES, MIN_ADDS } from '../lib/constants'
 import { createDraftItinerary } from '../lib/services/itinerary'
@@ -13,14 +18,20 @@ export default function Discover() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [index, setIndex] = useState(0)
   const [startX, setStartX] = useState<number | null>(null)
-  const { addLike, addAdd, liked, added, setDays } = useItineraryStore()
+  const { addLike, addAdd, setDays } = useItineraryStore()
+  const liked = useLikedIds()
+  const added = useAddedIds()
   const navigate = useNavigate()
   const location = useLocation()
   const criteria = (location.state || {}) as TripCriteria
 
   useEffect(() => {
-    fetchSuggestions(criteria).then(setSuggestions)
-  }, [criteria])
+    const profile = buildTasteProfile(liked, added)
+    fetchSuggestions(criteria, profile).then((s) => {
+      setSuggestions(s)
+      setIndex(0)
+    })
+  }, [criteria, liked, added])
 
   const current = suggestions[index]
   const next = () => setIndex((i) => i + 1)
@@ -70,6 +81,8 @@ export default function Discover() {
       added,
       dates,
       mood,
+      tasteProfile: criteria.tasteProfile || [],
+      city: criteria.city,
     })
     setDays(days)
     setIndex(0)

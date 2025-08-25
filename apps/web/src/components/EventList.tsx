@@ -5,9 +5,10 @@ interface Props {
   events: EventItem[]
   onReplace: (id: string, alt: EventItem) => void
   onSelect?: (e: EventItem) => void
+  onAskAlternates: (e: EventItem) => void
 }
 
-export default function EventList({ events, onReplace, onSelect }: Props) {
+export default function EventList({ events, onReplace, onSelect, onAskAlternates }: Props) {
   const [openId, setOpenId] = useState<string | null>(null)
   return (
     <div className="w-64 border p-2">
@@ -22,8 +23,17 @@ export default function EventList({ events, onReplace, onSelect }: Props) {
             <span>{e.title}</span>
             <span className="text-xs bg-gray-200 px-1 rounded">{e.category}</span>
           </div>
-          {e.alternates && (
-            <div>
+          <div className="space-x-2">
+            <button
+              className="text-sm text-blue-600"
+              onClick={(ev) => {
+                ev.stopPropagation()
+                onAskAlternates(e)
+              }}
+            >
+              Ask AI for alternates
+            </button>
+            {e.alternates && (
               <button
                 className="text-sm text-blue-600"
                 onClick={(ev) => {
@@ -33,23 +43,23 @@ export default function EventList({ events, onReplace, onSelect }: Props) {
               >
                 Replace
               </button>
-              {openId === e.id && (
-                <div className="mt-1 border p-1">
-                  {e.alternates.map((alt) => (
-                    <button
-                      key={alt.id}
-                      className="block text-left w-full hover:bg-gray-100 px-2 py-1"
-                      onClick={(ev) => {
-                        ev.stopPropagation()
-                        onReplace(e.id, alt)
-                        setOpenId(null)
-                      }}
-                    >
-                      {alt.title}
-                    </button>
-                  ))}
-                </div>
-              )}
+            )}
+          </div>
+          {e.alternates && openId === e.id && (
+            <div className="mt-1 border p-1">
+              {e.alternates.map((alt) => (
+                <button
+                  key={alt.id}
+                  className="block text-left w-full hover:bg-gray-100 px-2 py-1"
+                  onClick={(ev) => {
+                    ev.stopPropagation()
+                    onReplace(e.id, alt)
+                    setOpenId(null)
+                  }}
+                >
+                  {alt.title}
+                </button>
+              ))}
             </div>
           )}
         </div>

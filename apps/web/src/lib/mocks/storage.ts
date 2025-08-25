@@ -13,6 +13,7 @@ const trips: Trip[] = [
         { date: '2025-01-01', events: initialEvents },
       ],
     },
+    collaborators: [],
   },
 ];
 

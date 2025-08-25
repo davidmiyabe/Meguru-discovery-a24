@@ -1,4 +1,4 @@
-import type { Trip } from '../types'
+import type { Trip, Collaborator } from '../types'
 import { initialEvents } from '../../data'
 import { mockGetTrips, mockSaveTrip } from '../mocks/storage'
 import { STORAGE_ENDPOINT } from '../config'
@@ -14,6 +14,24 @@ export async function saveTrip(trip: Trip): Promise<Trip> {
   return mockSaveTrip(trip)
 }
 
+const collaboratorsStore: Record<string, Collaborator[]> = {}
+
+export async function sendInvite(
+  tripId: string,
+  email: string,
+  permission: Collaborator['permission'],
+) {
+  const collabs = collaboratorsStore[tripId] ?? []
+  collabs.push({ email, permission })
+  collaboratorsStore[tripId] = collabs
+  return { success: true }
+}
+
+export function removeCollaborator(tripId: string, email: string) {
+  const collabs = collaboratorsStore[tripId] ?? []
+  collaboratorsStore[tripId] = collabs.filter((c) => c.email !== email)
+}
+
 export function getTrip(id: string): Trip {
   // mock fetch of trip
   return {
@@ -27,5 +45,6 @@ export function getTrip(id: string): Trip {
         { date: '2025-01-01', events: initialEvents },
       ],
     },
+    collaborators: collaboratorsStore[id] ?? [],
   }
 }

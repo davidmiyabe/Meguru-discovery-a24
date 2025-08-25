@@ -7,6 +7,7 @@ export interface EventItem {
   position: { x: number; y: number }
   alternates?: EventItem[]
   suggested?: boolean
+  locked?: boolean
 }
 
 export interface Suggestion {
@@ -25,9 +26,15 @@ export interface Itinerary {
   days: ItineraryDay[]
 }
 
+export interface Collaborator {
+  email: string
+  permission: 'view' | 'edit'
+}
+
 export interface Trip {
   id: string
   title: string
   description: string
   itinerary: Itinerary
+  collaborators: Collaborator[]
 }
