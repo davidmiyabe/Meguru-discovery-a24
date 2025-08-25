@@ -5,7 +5,8 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function Card({ elevated = false, className = '', ...props }: CardProps) {
-  const base = elevated ? 'card--elevated' : 'card'
-  return <div className={`${base} sm:p-6 ${className}`} {...props} />
+  const base = 'rounded border border-slate bg-cream transition-shadow'
+  const elevation = elevated ? 'shadow-md hover:shadow-lg' : ''
+  return <div className={`${base} ${elevation} p-4 sm:p-6 ${className}`} {...props} />
 }
 

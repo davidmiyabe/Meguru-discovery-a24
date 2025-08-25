@@ -1,5 +1,6 @@
 import type { FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Button } from '../components/ui'
 import { useTripCriteria } from '../stores/tripCriteria'
 
 const cityOptions = ['Paris', 'Tokyo', 'New York', 'London']
@@ -25,14 +26,14 @@ export default function Start() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4">
+    <form onSubmit={handleSubmit} className="mx-auto flex max-w-md flex-col gap-4 p-4">
       <div>
-        <label className="block mb-1">City</label>
+        <label className="mb-1 block font-display text-gold">City</label>
         <input
           list="cities"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          className="border p-2"
+          className="w-full border border-slate bg-cream p-2"
         />
         <datalist id="cities">
           {cityOptions.map((c) => (
@@ -42,27 +43,27 @@ export default function Start() {
       </div>
 
       <div>
-        <label className="block mb-1">Start date</label>
+        <label className="mb-1 block font-display text-gold">Start date</label>
         <input
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
-          className="border p-2"
+          className="w-full border border-slate bg-cream p-2"
         />
       </div>
 
       <div>
-        <label className="block mb-1">Nights</label>
+        <label className="mb-1 block font-display text-gold">Nights</label>
         <input
           type="number"
           min={1}
           value={nights}
           onChange={(e) => setNights(Number(e.target.value))}
-          className="border p-2"
+          className="w-full border border-slate bg-cream p-2"
         />
       </div>
 
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex flex-wrap gap-2">
         {companionOptions.map((c) => (
           <label key={c} className="cursor-pointer">
             <input
@@ -76,9 +77,9 @@ export default function Start() {
         ))}
       </div>
 
-      <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+      <Button type="submit" className="mt-2">
         Discover
-      </button>
+      </Button>
     </form>
   )
 }
