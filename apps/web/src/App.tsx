@@ -8,6 +8,9 @@ import EventList from './components/EventList'
 import MapView from './components/MapView'
 import { initialEvents, suggestionEvents } from './data'
 import type { EventItem } from './types'
+import DraftPage from './pages/DraftPage';
+import ProfilePage from './pages/ProfilePage';
+import TripPage from './pages/TripPage';
 
 function App() {
   const [currentDay, setCurrentDay] = useState(1)
@@ -45,6 +48,11 @@ function App() {
           onChange={(e) => setCurrentDay(Number(e.target.value))}
         />
       </label>
+      <Routes>
+      <Route path="/" element={<DraftPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/trip/:id" element={<TripPage />} />
+      </Routes>
       <EventDetail {...event} />
       <button onClick={handleOptimize}>AI optimize</button>
       <button onClick={() => setInviteOpen(true)}>Invite collaborators</button>
@@ -64,3 +72,6 @@ function Home() {
       <EventList events={events} onReplace={replaceEvent} />
       <MapView events={events} suggestions={suggestions} onAdd={addEvent} onReplace={replaceEvent} />
     </div>
+
+    
+export default App;
