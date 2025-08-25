@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { createDraftItinerary } from '../lib/services/itinerary'
+import { saveTrip } from '../lib/services/trip'
 import { useItineraryStore } from '../stores/itineraryStore'
 import { Button, Card } from '../components/ui'
 import Calendar from '../components/Calendar'
 import EventList from '../components/EventList'
 import MapView from '../components/MapView'
+import { useToast } from '../components/ToastProvider'
 import type { EventItem } from '../lib/types'
 import { suggestionEvents } from '../data'
 
 export default function Draft() {
+  const navigate = useNavigate()
+  const { toast } = useToast()
   const { days, setDays, lockDay } = useItineraryStore()
   const [tab, setTab] = useState<'calendar' | 'list' | 'map'>('calendar')
   const [currentDay] = useState(0)
@@ -30,14 +36,10 @@ export default function Draft() {
   }, [days, setDays])
 
   const current = days[currentDay]
-  const currentEvents = (current?.events as EventItem[]) ?? []
+  const currentEvents = current?.events ?? []
 
   const setEvents = (events: EventItem[]) => {
-    setDays(
-      days.map((d, i) =>
-        i === currentDay ? { ...d, events: events as unknown as typeof d.events } : d,
-      ),
-    )
+    setDays(days.map((d, i) => (i === currentDay ? { ...d, events } : d)))
   }
 
   const onReplace = (id: string, alt: EventItem) => {
@@ -65,8 +67,16 @@ export default function Draft() {
     setDays(merged)
   }
 
-  const handleSave = () => {
-    console.log('Saving trip', days)
+  const handleSave = async () => {
+    const trip = {
+      id: 'draft',
+      title: 'Draft Trip',
+      description: 'Draft itinerary',
+      itinerary: { id: 'itinerary-draft', suggestions: [], days } as any,
+    }
+    await saveTrip(trip)
+    toast('Trip saved')
+    navigate('/profile')
   }
 
   return (
@@ -102,7 +112,7 @@ export default function Draft() {
                 <h3 className="font-display text-gold">{day.date}</h3>
                 <ul className="list-disc pl-4">
                   {day.events.map((ev) => (
-                    <li key={ev.id}>{ev.name}</li>
+                    <li key={ev.id}>{ev.title}</li>
                   ))}
                 </ul>
                 <Button
