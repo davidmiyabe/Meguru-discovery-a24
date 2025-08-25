@@ -1,9 +1,5 @@
-
-export interface Trip {
-  id: string;
-  title: string;
-  description: string;
-}
+import type { Trip } from './lib/types';
+export type { Trip } from './lib/types';
 
 export async function saveTrip(trip: Trip): Promise<void> {
   // mock API call, resolves after short delay
@@ -17,16 +13,12 @@ export function getTrip(id: string): Trip {
     id,
     title: `Trip ${id}`,
     description: 'A wonderful journey awaits you.',
+    itinerary: { id: `itinerary-${id}`, suggestions: [] },
   };
-  
-export async function createDraftItinerary(day: number) {
-  // Stubbed API call
-  console.log('createDraftItinerary for day', day)
-  return { success: true }
 }
 
 export async function sendInvite(email: string, permission: string) {
   // Stubbed API call
-  console.log('sendInvite', email, permission)
-  return { success: true }
+  console.log('sendInvite', email, permission);
+  return { success: true };
 }

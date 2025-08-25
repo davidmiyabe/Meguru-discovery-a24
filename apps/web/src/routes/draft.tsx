@@ -2,10 +2,17 @@ import { useEffect, useState } from 'react'
 import { createDraftItinerary } from '../lib/api'
 import { useItineraryStore } from '../stores/itineraryStore'
 import { Button, Card } from '../components/ui'
+import Calendar from '../components/Calendar'
+import EventList from '../components/EventList'
+import MapView from '../components/MapView'
+import type { EventItem } from '../types'
+import { suggestionEvents } from '../data'
 
 export default function Draft() {
   const { days, setDays, lockDay } = useItineraryStore()
   const [tab, setTab] = useState<'calendar' | 'list' | 'map'>('calendar')
+  const [currentDay] = useState(0)
+  const [suggestions, setSuggestions] = useState<EventItem[]>(suggestionEvents)
 
   useEffect(() => {
     async function load() {
@@ -22,20 +29,43 @@ export default function Draft() {
     load()
   }, [days, setDays])
 
+  const current = days[currentDay]
+  const currentEvents = (current?.events as EventItem[]) ?? []
+
+  const setEvents = (events: EventItem[]) => {
+    setDays(
+      days.map((d, i) =>
+        i === currentDay ? { ...d, events: events as unknown as typeof d.events } : d,
+      ),
+    )
+  }
+
+  const onReplace = (id: string, alt: EventItem) => {
+    setEvents(
+      currentEvents.map((e) =>
+        e.id === id ? { ...alt, alternates: e.alternates } : e,
+      ),
+    )
+  }
+
+  const onAdd = (e: EventItem) => {
+    setEvents([...currentEvents, e])
+    setSuggestions((sugs) => sugs.filter((s) => s.id !== e.id))
+  }
+
   const handleShuffle = async () => {
-    const current = useItineraryStore.getState().days
+    const currentDays = useItineraryStore.getState().days
     const data = await createDraftItinerary({
       likes: [],
       adds: [],
-      dates: current.map((d) => d.date),
+      dates: currentDays.map((d) => d.date),
       mood: 'chill',
     })
-    const merged = current.map((d, i) => (d.locked ? d : data[i]))
+    const merged = currentDays.map((d, i) => (d.locked ? d : data[i]))
     setDays(merged)
   }
 
   const handleSave = () => {
-    // Placeholder for save logic
     console.log('Saving trip', days)
   }
 
@@ -53,8 +83,17 @@ export default function Draft() {
         </Button>
       </div>
 
-      {tab === 'calendar' && <div>Calendar View</div>}
-      {tab === 'map' && <div>Map View</div>}
+      {tab === 'calendar' && (
+        <Calendar events={currentEvents} setEvents={setEvents} onReplace={onReplace} />
+      )}
+      {tab === 'map' && (
+        <MapView
+          events={currentEvents}
+          suggestions={suggestions}
+          onAdd={onAdd}
+          onReplace={onReplace}
+        />
+      )}
       {tab === 'list' && (
         <div className="space-y-4">
           {days.map((day, idx) => (
@@ -74,6 +113,14 @@ export default function Draft() {
               </Button>
             </Card>
           ))}
+        <EventList events={currentEvents} onReplace={onReplace} />
+      )}
+
+      {current && (
+        <div>
+          <button disabled={current.locked} onClick={() => lockDay(currentDay)}>
+            {current.locked ? 'Accepted' : 'Accept Day'}
+          </button>
         </div>
       )}
 
