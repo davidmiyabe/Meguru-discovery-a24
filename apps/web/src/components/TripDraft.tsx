@@ -12,13 +12,13 @@ interface Props {
 
 export function TripDraft({ trip, days, readOnly, onSave, onInvite, onRemoveCollaborator }: Props) {
   return (
-    <div className="p-4 border rounded">
-      <h2 className="text-xl font-bold">{trip.title}</h2>
+    <div className="p-4 rounded bg-night text-cream fade-in">
+      <h2 className="text-xl font-display text-gold">{trip.title}</h2>
       <p className="mt-2">{trip.description}</p>
       <div className="mt-4 space-y-4">
         {days.map((day) => (
           <div key={day.date} className="space-y-2">
-            <h3 className="font-semibold">{day.date}</h3>
+            <h3 className="font-display text-gold">{day.date}</h3>
             <Calendar
               events={day.events}
               setEvents={() => {}}
@@ -62,7 +62,7 @@ export function TripDraft({ trip, days, readOnly, onSave, onInvite, onRemoveColl
       </div>
       {!readOnly && (
         <button
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+          className="mt-4 px-4 py-2 bg-gold text-night rounded"
           onClick={onSave}
         >
           Save Trip

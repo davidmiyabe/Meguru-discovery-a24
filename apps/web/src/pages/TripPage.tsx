@@ -31,7 +31,7 @@ export default function TripPage() {
           type="text"
           readOnly
           value={window.location.href}
-          className="w-full border p-2"
+          className="w-full p-2 bg-night text-cream"
         />
       </div>
       <InviteCollaboratorsModal
