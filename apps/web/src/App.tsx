@@ -1,30 +1,29 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Draft from './routes/draft'
-import Discover from './routes/discover'
+import Calendar from './components/Calendar'
+import EventList from './components/EventList'
+import MapView from './components/MapView'
+import { initialEvents, suggestionEvents } from './data'
+import type { EventItem } from './types'
 
+function App() {
+  const [events, setEvents] = useState<EventItem[]>(initialEvents)
+  const [suggestions, setSuggestions] = useState<EventItem[]>(suggestionEvents)
+
+  const replaceEvent = (id: string, alt: EventItem) => {
+    setEvents((evts) => evts.map((e) => (e.id === id ? { ...alt, alternates: e.alternates } : e)))
+  }
+
+  const addEvent = (e: EventItem) => {
+    setEvents((evts) => [...evts, e])
+    setSuggestions((sugs) => sugs.filter((s) => s.id !== e.id))
+  }
 
 function Home() {
   const [count, setCount] = useState(0)
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Discover />} />
-        <Route path='/discover' element={<Discover />} />
-      </Routes>
-    </BrowserRouter>
-  )
-}
-export default function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/draft" element={<Draft />} />
-      </Routes>
-    </BrowserRouter>
-  )
-}
+    <div className="flex gap-4 p-4 text-sm">
+      <Calendar events={events} setEvents={setEvents} onReplace={replaceEvent} />
+      <EventList events={events} onReplace={replaceEvent} />
+      <MapView events={events} suggestions={suggestions} onAdd={addEvent} onReplace={replaceEvent} />
+    </div>
