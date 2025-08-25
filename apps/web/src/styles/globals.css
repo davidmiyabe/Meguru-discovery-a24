@@ -43,7 +43,7 @@
 
 @layer utilities {
   .bg-night {
-    background-color: theme('colors.night');
+    background-color: theme('colors.night', '#1A202C');
     color: theme('colors.cream');
   }
 
