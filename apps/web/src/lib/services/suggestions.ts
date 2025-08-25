@@ -4,7 +4,9 @@ export interface Suggestion {
   description: string
 }
 
-export async function fetchSuggestions(_criteria: Record<string, unknown>): Promise<Suggestion[]> {
+export async function fetchSuggestions(
+  _criteria: Record<string, unknown>,
+): Promise<Suggestion[]> {
   void _criteria
   return [
     { id: 1, title: 'Museum Visit', description: 'Explore the city museum.' },

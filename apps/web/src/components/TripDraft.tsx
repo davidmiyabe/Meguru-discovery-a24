@@ -1,4 +1,4 @@
-import { Trip } from '../api';
+import type { Trip } from '../lib/types';
 
 interface Props {
   trip: Trip;

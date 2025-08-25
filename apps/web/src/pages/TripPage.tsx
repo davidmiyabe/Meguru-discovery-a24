@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { getTrip } from '../api';
+import { getTrip } from '../lib/services/trip';
 import { TripDraft } from '../components/TripDraft';
 
 export default function TripPage() {

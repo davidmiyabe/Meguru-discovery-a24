@@ -1,4 +1,5 @@
-import { Trip, getTrip } from '../api';
+import type { Trip } from '../lib/types';
+import { getTrip } from '../lib/services/trip';
 
 const myTrips: Trip[] = [getTrip('1'), getTrip('2'), getTrip('3')];
 const suggestedTrips: Trip[] = [getTrip('4'), getTrip('5'), getTrip('6')];

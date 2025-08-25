@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { fetchSuggestions, type Suggestion } from '../api/suggestions'
+import { fetchSuggestions, type Suggestion } from '../lib/services/suggestions'
 import { useItineraryStore } from '../stores/itineraryStore'
 import { Button, Card } from '../components/ui'
 import { MIN_LIKES, MIN_ADDS } from '../lib/constants'
-import { createDraftItinerary } from '../lib/api'
+import { createDraftItinerary } from '../lib/services/itinerary'
 import { useNavigate } from 'react-router-dom'
 export default function Discover() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])

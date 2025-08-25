@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { createDraftItinerary } from '../lib/api'
+import { createDraftItinerary } from '../lib/services/itinerary'
 import { useItineraryStore } from '../stores/itineraryStore'
 import { Button, Card } from '../components/ui'
 import Calendar from '../components/Calendar'

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { sendInvite } from '../api/invite'
+import { sendInvite } from '../lib/services/invite'
 
 interface InviteCollaboratorsModalProps {
   isOpen: boolean

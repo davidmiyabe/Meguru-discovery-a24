@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { getTrip, saveTrip } from '../api';
+import { getTrip, saveTrip } from '../lib/services/trip';
 import { TripDraft } from '../components/TripDraft';
 import { useToast } from '../components/ToastProvider';
 
