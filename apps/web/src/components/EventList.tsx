@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { EventItem } from '../lib/types'
+import { Button } from './ui'
 
 interface Props {
   events: EventItem[]
@@ -24,7 +25,8 @@ export default function EventList({ events, onReplace, onSelect }: Props) {
           </div>
           {e.alternates && (
             <div>
-              <button
+              <Button
+                variant="ghost"
                 className="text-sm text-blue-600"
                 onClick={(ev) => {
                   ev.stopPropagation()
@@ -32,12 +34,13 @@ export default function EventList({ events, onReplace, onSelect }: Props) {
                 }}
               >
                 Replace
-              </button>
+              </Button>
               {openId === e.id && (
                 <div className="mt-1 border p-1">
                   {e.alternates.map((alt) => (
-                    <button
+                    <Button
                       key={alt.id}
+                      variant="ghost"
                       className="block text-left w-full hover:bg-gray-100 px-2 py-1"
                       onClick={(ev) => {
                         ev.stopPropagation()
@@ -46,7 +49,7 @@ export default function EventList({ events, onReplace, onSelect }: Props) {
                       }}
                     >
                       {alt.title}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               )}

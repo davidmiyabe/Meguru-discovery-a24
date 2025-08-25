@@ -1,5 +1,6 @@
 import Calendar from './Calendar';
 import type { Trip, ItineraryDay } from '../lib/types';
+import { Button } from './ui';
 
 interface Props {
   trip: Trip;
@@ -27,12 +28,9 @@ export function TripDraft({ trip, days, readOnly, onSave }: Props) {
         ))}
       </div>
       {!readOnly && (
-        <button
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-          onClick={onSave}
-        >
+        <Button onClick={onSave} className="mt-4" type="button">
           Save Trip
-        </button>
+        </Button>
       )}
     </div>
   );

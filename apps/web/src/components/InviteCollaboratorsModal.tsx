@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { sendInvite } from '../lib/services/invite'
-import { Sheet } from './ui'
+import { Sheet, Button } from './ui'
 
 interface InviteCollaboratorsModalProps {
   isOpen: boolean
@@ -32,23 +32,23 @@ const InviteCollaboratorsModal: React.FC<InviteCollaboratorsModalProps> = ({
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
           required
-          className="w-full border p-2 rounded"
+          className="w-full border border-border p-2 rounded focus:outline-none focus:ring-2 focus:ring-gold"
         />
         <select
           value={permission}
           onChange={(e) => setPermission(e.target.value)}
-          className="w-full border p-2 rounded"
+          className="w-full border border-border p-2 rounded focus:outline-none focus:ring-2 focus:ring-gold"
         >
           <option value="view">View</option>
           <option value="edit">Edit</option>
         </select>
         <div className="flex gap-2 justify-end">
-          <button type="button" onClick={onClose} className="px-2 py-1 border rounded">
+          <Button type="button" onClick={onClose} variant="outline" className="px-2 py-1">
             Cancel
-          </button>
-          <button type="submit" className="px-2 py-1 border rounded bg-blue-600 text-white">
+          </Button>
+          <Button type="submit" className="px-2 py-1">
             Send Invite
-          </button>
+          </Button>
         </div>
       </form>
     </Sheet>

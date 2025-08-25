@@ -30,7 +30,7 @@ function CityAutocomplete({
           onChange(e.target.value)
           setOpen(true)
         }}
-        className="w-full"
+        className="w-full border border-border p-2 rounded focus:outline-none focus:ring-2 focus:ring-gold"
       />
       {open && suggestions.length > 0 && (
         <ul className="absolute z-10 mt-1 w-full max-h-40 overflow-auto rounded border border-slate bg-cream shadow-md">
@@ -142,7 +142,7 @@ export default function Start() {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full"
+              className="w-full border border-border p-2 rounded focus:outline-none focus:ring-2 focus:ring-gold"
             />
           </div>
           <div className="flex-1">
@@ -151,7 +151,7 @@ export default function Start() {
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full"
+              className="w-full border border-border p-2 rounded focus:outline-none focus:ring-2 focus:ring-gold"
             />
           </div>
         </div>
@@ -163,7 +163,7 @@ export default function Start() {
               type="month"
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-              className="w-full"
+              className="w-full border border-border p-2 rounded focus:outline-none focus:ring-2 focus:ring-gold"
             />
           </div>
           <div className="flex-1">
@@ -173,7 +173,7 @@ export default function Start() {
               min={1}
               value={nights}
               onChange={(e) => setNights(Number(e.target.value))}
-              className="w-full"
+              className="w-full border border-border p-2 rounded focus:outline-none focus:ring-2 focus:ring-gold"
             />
           </div>
         </div>
