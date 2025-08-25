@@ -1,6 +1,6 @@
 export interface CreateDraftItineraryParams {
-  likes: string[]
-  adds: string[]
+  liked: string[]
+  added: string[]
   dates: string[]
   mood: string
 }
