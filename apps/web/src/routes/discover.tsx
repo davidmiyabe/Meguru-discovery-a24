@@ -4,7 +4,7 @@ import {
   type Suggestion,
   type TripCriteria,
 } from '../lib/services/suggestions'
-import { useItineraryStore } from '../stores/itineraryStore'
+import { useItineraryStore, useLikes, useAdds } from '../stores/itineraryStore'
 import { Button, Card } from '../components/ui'
 import { MIN_LIKES, MIN_ADDS } from '../lib/constants'
 import { createDraftItinerary } from '../lib/services/itinerary'
@@ -13,7 +13,9 @@ export default function Discover() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [index, setIndex] = useState(0)
   const [startX, setStartX] = useState<number | null>(null)
-  const { addLike, addAdd, likes, adds, setDays } = useItineraryStore()
+  const { addLike, addAdd, liked, added, setDays } = useItineraryStore()
+  const likes = useLikes()
+  const adds = useAdds()
   const navigate = useNavigate()
   const location = useLocation()
   const criteria = (location.state || {}) as TripCriteria
@@ -33,7 +35,7 @@ export default function Discover() {
     if (startX === null) return
     const diff = e.changedTouches[0].clientX - startX
     if (diff > 50) {
-      addLike()
+      addLike(current.id)
       next()
     } else if (diff < -50) {
       next()
@@ -42,15 +44,15 @@ export default function Discover() {
   }
 
   const handleAdd = () => {
-    addAdd()
+    addAdd(current.id)
     next()
   }
 
   const canBuild = likes >= MIN_LIKES || adds >= MIN_ADDS
   const buildItinerary = async () => {
     const days = await createDraftItinerary({
-      likes,
-      adds,
+      liked,
+      added,
       dates: ['2025-01-01', '2025-01-02'],
       mood: 'chill',
     })

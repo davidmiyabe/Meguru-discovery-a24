@@ -1,10 +1,17 @@
 import type { Trip } from '../types'
 import { initialEvents } from '../../data'
+import { mockGetTrips, mockSaveTrip } from '../mocks/storage'
+import { STORAGE_ENDPOINT } from '../config'
 
-export async function saveTrip(trip: Trip): Promise<void> {
-  // mock API call, resolves after short delay
-  await new Promise((resolve) => setTimeout(resolve, 500))
-  console.log('Trip saved', trip)
+export async function getTrips(): Promise<Trip[]> {
+  // TODO: replace mock implementation with real storage API call
+  void STORAGE_ENDPOINT
+  return mockGetTrips()
+}
+
+export async function saveTrip(trip: Trip): Promise<Trip> {
+  // TODO: replace mock implementation with real storage API call
+  return mockSaveTrip(trip)
 }
 
 export function getTrip(id: string): Trip {

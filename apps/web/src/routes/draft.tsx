@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { useToast } from '../components/ToastProvider'
 import { createDraftItinerary } from '../lib/services/itinerary'
 import { saveTrip } from '../lib/services/trip'
 import { useItineraryStore } from '../stores/itineraryStore'
@@ -27,8 +28,8 @@ export default function Draft() {
     async function load() {
       if (days.length === 0) {
         const data = await createDraftItinerary({
-          likes: [],
-          adds: [],
+          liked: [],
+          added: [],
           dates: ['2025-01-01', '2025-01-02'],
           mood: 'chill',
         })
@@ -61,8 +62,8 @@ export default function Draft() {
   const handleShuffle = async () => {
     const currentDays = useItineraryStore.getState().days
     const data = await createDraftItinerary({
-      likes: [],
-      adds: [],
+      liked: [],
+      added: [],
       dates: currentDays.map((d) => d.date),
       mood: 'chill',
     })
