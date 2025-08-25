@@ -120,43 +120,12 @@ export default function Start() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto flex max-w-md flex-col gap-4 p-4">
+    <form
+      onSubmit={handleSubmit}
+      className="mx-auto flex max-w-md flex-col gap-4 p-4"
+    >
       <div>
         <label className="mb-1 block font-display text-gold">City</label>
-        <input
-          list="cities"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          className="w-full border border-slate bg-cream p-2"
-        />
-        <datalist id="cities">
-          {cityOptions.map((c) => (
-            <option key={c} value={c} />
-          ))}
-        </datalist>
-      </div>
-
-      <div>
-        <label className="mb-1 block font-display text-gold">Start date</label>
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          className="w-full border border-slate bg-cream p-2"
-        />
-      </div>
-
-      <div>
-        <label className="mb-1 block font-display text-gold">Nights</label>
-        <input
-          type="number"
-          min={1}
-          value={nights}
-          onChange={(e) => setNights(Number(e.target.value))}
-          className="w-full border border-slate bg-cream p-2"
-        />
-      </div>
-        <label className="block mb-1">City</label>
         <CityAutocomplete value={city} onChange={setCity} />
       </div>
 
