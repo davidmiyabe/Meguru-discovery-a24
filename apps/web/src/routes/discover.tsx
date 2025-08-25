@@ -86,7 +86,7 @@ export default function Discover() {
         >
           <h2 className='text-lg font-display text-gold'>{current.title}</h2>
           <p className='mt-2'>{current.description}</p>
-          <Button className='mt-4' onClick={handleAdd}>
+          <Button variant='primary' className='mt-4' onClick={handleAdd}>
             Add to Itinerary
           </Button>
         </Card>
@@ -94,6 +94,7 @@ export default function Discover() {
         <p>No more suggestions</p>
       )}
       <Button
+        variant='primary'
         className='mt-6 disabled:opacity-50'
         disabled={!canBuild}
         onClick={buildItinerary}
