@@ -4,14 +4,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: '#0D3B2E',
-        paper: '#FAF7F1',
-        border: '#E6E1D9',
-        accent: '#D6A14D',
+        night: '#0A0A0A',
+        cream: '#FDF6E3',
+        gold: '#C5A880',
+        slate: '#4A4A4A',
       },
       fontFamily: {
-        fraunces: ['Fraunces', 'serif'],
-        inter: ['Inter', 'sans-serif'],
+        display: ['"Cormorant Garamond"', 'serif'],
+        sans: ['Inter', 'sans-serif'],
       },
     },
   },
