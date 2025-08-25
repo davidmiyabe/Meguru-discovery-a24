@@ -8,7 +8,7 @@ export default function TripPage() {
 
   return (
     <div className="p-4 space-y-4">
-      <TripDraft trip={trip} readOnly />
+      <TripDraft trip={trip} days={trip.itinerary.days} readOnly />
       <div>
         <p className="font-semibold">Shareable link:</p>
         <input

@@ -14,9 +14,15 @@ export interface Suggestion {
   text: string
 }
 
+export interface ItineraryDay {
+  date: string
+  events: EventItem[]
+}
+
 export interface Itinerary {
   id: string
   suggestions: Suggestion[]
+  days: ItineraryDay[]
 }
 
 export interface Trip {

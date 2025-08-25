@@ -7,9 +7,10 @@ interface Props {
   setEvents: (events: EventItem[]) => void
   onReplace: (id: string, alt: EventItem) => void
   onSelect?: (e: EventItem) => void
+  readOnly?: boolean
 }
 
-export default function Calendar({ events, setEvents, onReplace, onSelect }: Props) {
+export default function Calendar({ events, setEvents, onReplace, onSelect, readOnly }: Props) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [dragId, setDragId] = useState<string | null>(null)
 
@@ -25,9 +26,12 @@ export default function Calendar({ events, setEvents, onReplace, onSelect }: Pro
     }
   }
 
-  const handleDragStart = (id: string) => setDragId(id)
+  const handleDragStart = (id: string) => {
+    if (readOnly) return
+    setDragId(id)
+  }
   const handleDrop = (id: string) => {
-    if (!dragId) return
+    if (readOnly || !dragId) return
     const oldIndex = events.findIndex((e) => e.id === dragId)
     const newIndex = events.findIndex((e) => e.id === id)
     const newEvents = [...events]
@@ -51,6 +55,7 @@ export default function Calendar({ events, setEvents, onReplace, onSelect }: Pro
           handleDrop={handleDrop}
           onReplace={onReplace}
           onSelect={onSelect}
+          readOnly={readOnly}
         />
       ))}
     </div>
@@ -66,6 +71,7 @@ interface RowProps {
   handleDrop: (id: string) => void
   onReplace: (id: string, alt: EventItem) => void
   onSelect?: (e: EventItem) => void
+  readOnly?: boolean
 }
 
 function EventRow({
@@ -77,23 +83,24 @@ function EventRow({
   handleDrop,
   onReplace,
   onSelect,
+  readOnly,
 }: RowProps) {
-  const longPress = useLongPress(() => setActiveId(e.id))
+  const longPress = readOnly ? undefined : useLongPress(() => setActiveId(e.id))
   return (
     <div
-      draggable
-      onDragStart={() => handleDragStart(e.id)}
-      onDragOver={(ev) => ev.preventDefault()}
-      onDrop={() => handleDrop(e.id)}
+      draggable={!readOnly}
+      onDragStart={!readOnly ? () => handleDragStart(e.id) : undefined}
+      onDragOver={!readOnly ? (ev) => ev.preventDefault() : undefined}
+      onDrop={!readOnly ? () => handleDrop(e.id) : undefined}
       className={`p-2 mb-2 border rounded relative ${conflict ? 'bg-red-200' : 'bg-white'}`}
       onClick={() => onSelect?.(e)}
-      {...longPress}
+      {...(longPress || {})}
     >
       <div className="font-medium">{e.title}</div>
       <div className="text-xs">
         {e.start / 60}:00 - {e.end / 60}:00
       </div>
-      {activeId === e.id && e.alternates && (
+      {!readOnly && activeId === e.id && e.alternates && (
         <div className="absolute z-10 bg-white border p-1 top-0 left-full ml-2">
           {e.alternates.map((alt) => (
             <button
