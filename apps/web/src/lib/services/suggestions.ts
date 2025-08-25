@@ -16,20 +16,23 @@ export interface TripCriteria {
   month: string
   nights: number
   companions: string[]
+  tasteProfile: string[]
 }
 
 interface SuggestionRecord extends Suggestion {
   city: string
   companions: string[]
+  categories: string[]
 }
 
-const SUGGESTIONS: SuggestionRecord[] = [
+export const SUGGESTIONS: SuggestionRecord[] = [
   {
     id: 1,
     title: 'Museum Visit',
     description: 'Explore the city museum.',
     city: 'Paris',
     companions: ['Solo', 'Partner', 'Family'],
+    categories: ['culture'],
   },
   {
     id: 2,
@@ -37,6 +40,7 @@ const SUGGESTIONS: SuggestionRecord[] = [
     description: 'Try coffee at the local cafe.',
     city: 'Paris',
     companions: ['Solo', 'Partner', 'Friends'],
+    categories: ['food'],
   },
   {
     id: 3,
@@ -44,6 +48,7 @@ const SUGGESTIONS: SuggestionRecord[] = [
     description: 'Take a walk in the park.',
     city: 'London',
     companions: ['Solo', 'Family', 'Friends'],
+    categories: ['nature'],
   },
   {
     id: 4,
@@ -51,19 +56,49 @@ const SUGGESTIONS: SuggestionRecord[] = [
     description: 'Enjoy fresh sushi downtown.',
     city: 'Tokyo',
     companions: ['Solo', 'Partner', 'Friends'],
+    categories: ['food'],
+  },
+  {
+    id: 5,
+    title: 'Artisanal Market',
+    description: 'Browse local crafts and goods.',
+    city: 'London',
+    companions: ['Solo', 'Partner', 'Friends'],
+  },
+  {
+    id: 6,
+    title: 'Rooftop Bar',
+    description: 'Enjoy skyline views with a drink.',
+    city: 'Tokyo',
+    companions: ['Solo', 'Partner', 'Friends'],
   },
 ]
 
 export async function fetchSuggestions(
   criteria: TripCriteria,
+  profile: string[] = [],
 ): Promise<Suggestion[]> {
   const { city, companions } = criteria
-  return SUGGESTIONS.filter(
+  const filtered = SUGGESTIONS.filter(
     (s) =>
       (!city || s.city.toLowerCase() === city.toLowerCase()) &&
       (companions.length === 0 ||
         s.companions.some((c) => companions.includes(c))),
-  ).map(({ id, title, description }) => ({ id, title, description }))
+  )
+  if (profile.length > 0) {
+    const matches = filtered.filter((s) =>
+      s.categories.some((c) => profile.includes(c)),
+    )
+    const others = filtered.filter(
+      (s) => !s.categories.some((c) => profile.includes(c)),
+    )
+    return [...matches, ...others].map(({ id, title, description }) => ({
+      id,
+      title,
+      description,
+    }))
+  }
+  return filtered.map(({ id, title, description }) => ({ id, title, description }))
 }
 
 export async function fetchAISuggestions(

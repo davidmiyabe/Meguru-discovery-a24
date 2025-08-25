@@ -5,6 +5,7 @@ import { useTripCriteria } from '../stores/tripCriteria'
 import { useCitySearch } from '../hooks/useCitySearch'
 
 const companionOptions = ['Solo', 'Partner', 'Family', 'Friends']
+const tasteOptions = ['Foodie', 'Art', 'Nature']
 
 function CityAutocomplete({
   value,
@@ -30,10 +31,10 @@ function CityAutocomplete({
           onChange(e.target.value)
           setOpen(true)
         }}
-        className="w-full"
+        className="w-full border border-border p-2 rounded focus:outline-none focus:ring-2 focus:ring-gold"
       />
       {open && suggestions.length > 0 && (
-        <ul className="absolute z-10 mt-1 w-full max-h-40 overflow-auto rounded border border-slate bg-cream shadow-md">
+        <ul className="absolute z-10 mt-1 w-full max-h-40 overflow-auto rounded border border-border bg-cream shadow-md">
           {suggestions.map((s) => (
             <li
               key={s}
@@ -69,6 +70,8 @@ export default function Start() {
     setNights,
     companions,
     toggleCompanion,
+    tasteProfile,
+    toggleTaste,
   } = useTripCriteria()
 
   const handleSubmit = (e: FormEvent) => {
@@ -97,6 +100,7 @@ export default function Start() {
       month,
       nights,
       companions,
+      tasteProfile,
     }
     navigate('/discover', { state: criteria })
   }
@@ -142,7 +146,7 @@ export default function Start() {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full"
+              className="w-full border border-border p-2 rounded focus:outline-none focus:ring-2 focus:ring-gold"
             />
           </div>
           <div className="flex-1">
@@ -151,7 +155,7 @@ export default function Start() {
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full"
+              className="w-full border border-border p-2 rounded focus:outline-none focus:ring-2 focus:ring-gold"
             />
           </div>
         </div>
@@ -163,7 +167,7 @@ export default function Start() {
               type="month"
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-              className="w-full"
+              className="w-full border border-border p-2 rounded focus:outline-none focus:ring-2 focus:ring-gold"
             />
           </div>
           <div className="flex-1">
@@ -173,7 +177,7 @@ export default function Start() {
               min={1}
               value={nights}
               onChange={(e) => setNights(Number(e.target.value))}
-              className="w-full"
+              className="w-full border border-border p-2 rounded focus:outline-none focus:ring-2 focus:ring-gold"
             />
           </div>
         </div>
@@ -189,6 +193,20 @@ export default function Start() {
               className="accent-gold"
             />
             {c}
+          </label>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {tasteOptions.map((t) => (
+          <label key={t} className="inline-flex cursor-pointer items-center gap-1 font-display text-sm">
+            <input
+              type="checkbox"
+              checked={tasteProfile.includes(t)}
+              onChange={() => toggleTaste(t)}
+              className="accent-gold"
+            />
+            {t}
           </label>
         ))}
       </div>
