@@ -33,7 +33,7 @@ function CityAutocomplete({
         className="w-full"
       />
       {open && suggestions.length > 0 && (
-        <ul className="absolute z-10 mt-1 w-full max-h-40 overflow-auto rounded border border-slate bg-cream shadow-md">
+        <ul className="absolute z-10 mt-1 w-full max-h-40 overflow-auto rounded border border-border bg-cream shadow-md">
           {suggestions.map((s) => (
             <li
               key={s}
