@@ -7,7 +7,7 @@ export default function TripPage() {
   const trip = getTrip(id ?? '');
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 space-y-4 fade-in">
       <TripDraft trip={trip} days={trip.itinerary.days} readOnly />
       <div>
         <p className="font-semibold">Shareable link:</p>
@@ -15,7 +15,7 @@ export default function TripPage() {
           type="text"
           readOnly
           value={window.location.href}
-          className="w-full border p-2"
+          className="w-full p-2 bg-night text-cream"
         />
       </div>
     </div>

@@ -84,7 +84,7 @@ export default function Draft() {
   }
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 space-y-4 fade-in">
       <div className="flex gap-2">
         <Button variant={tab === 'calendar' ? 'primary' : 'outline'} onClick={() => setTab('calendar')}>
           Calendar
@@ -98,12 +98,14 @@ export default function Draft() {
       </div>
 
       {tab === 'calendar' && (
-        <Calendar
-          events={currentEvents}
-          setEvents={setEvents}
-          onReplace={onReplace}
-          onSelect={setSelectedEvent}
-        />
+        <div className="fade-in">
+          <Calendar
+            events={currentEvents}
+            setEvents={setEvents}
+            onReplace={onReplace}
+            onSelect={setSelectedEvent}
+          />
+        </div>
       )}
       {tab === 'map' && (
         <MapView
@@ -118,7 +120,7 @@ export default function Draft() {
         <>
           <div className="space-y-4">
             {days.map((day, idx) => (
-              <Card key={day.date} className="space-y-2">
+              <Card key={day.date} className="space-y-2 bg-night text-cream fade-in border-0">
                 <h3 className="font-display text-gold">{day.date}</h3>
                 <ul className="list-disc pl-4">
                   {day.events.map((ev) => (
