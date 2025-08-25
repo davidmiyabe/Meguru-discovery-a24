@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useToast } from '../components/ToastProvider'
 import { createDraftItinerary } from '../lib/services/itinerary'
+import { fetchAISuggestions } from '../lib/services/suggestions'
 import { saveTrip } from '../lib/services/trip'
 import { useItineraryStore } from '../stores/itineraryStore'
 import { Button, Card, Sheet } from '../components/ui'
@@ -71,6 +72,44 @@ export default function Draft() {
     setDays(merged)
   }
 
+  const handleOptimize = async () => {
+    const state = useItineraryStore.getState()
+    const day = state.days[currentDay]
+    if (!day) return
+    const data = await createDraftItinerary({
+      liked: state.liked,
+      added: state.added,
+      dates: [day.date],
+      mood: 'chill',
+    })
+    const lockedEvents = day.events.filter((e) => e.locked)
+    const lockedIds = new Set(lockedEvents.map((e) => e.id))
+    const mergedEvents = [
+      ...lockedEvents,
+      ...data[0].events.filter((e) => !lockedIds.has(e.id)),
+    ]
+    setDays(
+      state.days.map((d, idx) =>
+        idx === currentDay ? { ...d, events: mergedEvents } : d,
+      ),
+    )
+  }
+
+  const askAlternates = async (e: EventItem) => {
+    const suggestions = await fetchAISuggestions(e.title)
+    const alts = suggestions.map((s, idx) => ({
+      ...e,
+      id: `${e.id}-alt-${idx}`,
+      title: s.text,
+      suggested: true,
+    }))
+    setEvents(
+      currentEvents.map((ev) =>
+        ev.id === e.id ? { ...ev, alternates: alts } : ev,
+      ),
+    )
+  }
+
   const handleSave = async () => {
     const trip = {
       id: 'draft',
@@ -103,6 +142,7 @@ export default function Draft() {
           setEvents={setEvents}
           onReplace={onReplace}
           onSelect={setSelectedEvent}
+          onAskAlternates={askAlternates}
         />
       )}
       {tab === 'map' && (
@@ -139,12 +179,14 @@ export default function Draft() {
             events={currentEvents}
             onReplace={onReplace}
             onSelect={setSelectedEvent}
+            onAskAlternates={askAlternates}
           />
         </>
       )}
 
       <div className="flex gap-2">
         <Button onClick={handleShuffle}>Magic Shuffle</Button>
+        <Button onClick={handleOptimize}>AI optimize</Button>
         <Button variant="outline" onClick={handleSave}>
           Save Trip
         </Button>

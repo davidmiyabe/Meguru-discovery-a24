@@ -14,6 +14,7 @@ export interface ItineraryEvent {
   position: { x: number; y: number }
   alternates?: ItineraryEvent[]
   suggested?: boolean
+  locked?: boolean
 }
 
 export interface ItineraryDay {

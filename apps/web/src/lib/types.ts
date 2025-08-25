@@ -7,6 +7,7 @@ export interface EventItem {
   position: { x: number; y: number }
   alternates?: EventItem[]
   suggested?: boolean
+  locked?: boolean
 }
 
 export interface Suggestion {
