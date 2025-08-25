@@ -5,6 +5,7 @@ import { useTripCriteria } from '../stores/tripCriteria'
 import { useCitySearch } from '../hooks/useCitySearch'
 
 const companionOptions = ['Solo', 'Partner', 'Family', 'Friends']
+const tasteOptions = ['Foodie', 'Art', 'Nature']
 
 function CityAutocomplete({
   value,
@@ -69,6 +70,8 @@ export default function Start() {
     setNights,
     companions,
     toggleCompanion,
+    tasteProfile,
+    toggleTaste,
   } = useTripCriteria()
 
   const handleSubmit = (e: FormEvent) => {
@@ -97,6 +100,7 @@ export default function Start() {
       month,
       nights,
       companions,
+      tasteProfile,
     }
     navigate('/discover', { state: criteria })
   }
@@ -189,6 +193,20 @@ export default function Start() {
               className="accent-gold"
             />
             {c}
+          </label>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {tasteOptions.map((t) => (
+          <label key={t} className="inline-flex cursor-pointer items-center gap-1 font-display text-sm">
+            <input
+              type="checkbox"
+              checked={tasteProfile.includes(t)}
+              onChange={() => toggleTaste(t)}
+              className="accent-gold"
+            />
+            {t}
           </label>
         ))}
       </div>
