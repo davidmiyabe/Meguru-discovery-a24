@@ -3,6 +3,8 @@ import type { Trip } from '../types';
 const trips: Trip[] = [
   {
     id: 't1',
+    title: 'Sample Trip',
+    description: 'Mock trip description',
     itinerary: {
       id: 'i1',
       suggestions: [

@@ -2,12 +2,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
 import EventDetail from './components/EventDetail'
 import InviteCollaboratorsModal from './components/InviteCollaboratorsModal'
-import { createDraftItinerary } from './api'
+import { createDraftItinerary } from './lib/api'
 import Calendar from './components/Calendar'
 import EventList from './components/EventList'
 import MapView from './components/MapView'
 import { initialEvents, suggestionEvents } from './data'
-import type { EventItem } from './types'
+import type { EventItem } from './lib/types'
 import DraftPage from './pages/DraftPage';
 import ProfilePage from './pages/ProfilePage';
 import TripPage from './pages/TripPage';
@@ -36,7 +36,7 @@ function App() {
   }
 
   const handleOptimize = () => {
-    createDraftItinerary(currentDay)
+    createDraftItinerary({ likes: [], adds: [], dates: [], mood: 'chill' })
   }
   const [count, setCount] = useState(0)
   const { data: trips } = useTrips()
