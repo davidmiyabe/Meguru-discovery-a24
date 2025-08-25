@@ -1,33 +1,42 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import EventDetail from './components/EventDetail'
+import InviteCollaboratorsModal from './components/InviteCollaboratorsModal'
+import { createDraftItinerary } from './api'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentDay, setCurrentDay] = useState(1)
+  const [inviteOpen, setInviteOpen] = useState(false)
+
+  const event = {
+    description: 'Visit the art museum',
+    location: 'Downtown Museum',
+    contact: 'info@museum.com',
+    duration: '2 hours',
+    suggestions: ['City Gallery', 'Historical Tour'],
+  }
+
+  const handleOptimize = () => {
+    createDraftItinerary(currentDay)
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <label>
+        Day:
+        <input
+          type="number"
+          value={currentDay}
+          onChange={(e) => setCurrentDay(Number(e.target.value))}
+        />
+      </label>
+      <EventDetail {...event} />
+      <button onClick={handleOptimize}>AI optimize</button>
+      <button onClick={() => setInviteOpen(true)}>Invite collaborators</button>
+      <InviteCollaboratorsModal
+        isOpen={inviteOpen}
+        onClose={() => setInviteOpen(false)}
+      />
     </>
   )
 }
