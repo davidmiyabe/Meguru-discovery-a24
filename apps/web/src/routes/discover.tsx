@@ -13,7 +13,7 @@ export default function Discover() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [index, setIndex] = useState(0)
   const [startX, setStartX] = useState<number | null>(null)
-  const { addLike, addAdd, likes, adds, setDays } = useItineraryStore()
+  const { addLike, addAdd, liked, added, setDays } = useItineraryStore()
   const navigate = useNavigate()
   const location = useLocation()
   const criteria = (location.state || {}) as TripCriteria
@@ -30,10 +30,10 @@ export default function Discover() {
   }
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (startX === null) return
+    if (startX === null || !current) return
     const diff = e.changedTouches[0].clientX - startX
     if (diff > 50) {
-      addLike()
+      addLike(String(current.id))
       next()
     } else if (diff < -50) {
       next()
@@ -42,17 +42,34 @@ export default function Discover() {
   }
 
   const handleAdd = () => {
-    addAdd()
+    if (!current) return
+    addAdd(String(current.id))
     next()
   }
 
-  const canBuild = likes >= MIN_LIKES || adds >= MIN_ADDS
+  const canBuild = liked.length >= MIN_LIKES || added.length >= MIN_ADDS
   const buildItinerary = async () => {
+    const dates: string[] = []
+    if (criteria.dateMode === 'range') {
+      const start = new Date(criteria.startDate)
+      const end = new Date(criteria.endDate)
+      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        dates.push(d.toISOString().split('T')[0])
+      }
+    } else {
+      const start = new Date(`${criteria.month}-01`)
+      for (let i = 0; i < criteria.nights; i++) {
+        const d = new Date(start)
+        d.setDate(start.getDate() + i)
+        dates.push(d.toISOString().split('T')[0])
+      }
+    }
+    const mood = 'chill'
     const days = await createDraftItinerary({
-      likes,
-      adds,
-      dates: ['2025-01-01', '2025-01-02'],
-      mood: 'chill',
+      liked,
+      added,
+      dates,
+      mood,
     })
     setDays(days)
     setIndex(0)

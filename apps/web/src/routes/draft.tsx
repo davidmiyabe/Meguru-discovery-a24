@@ -27,8 +27,8 @@ export default function Draft() {
     async function load() {
       if (days.length === 0) {
         const data = await createDraftItinerary({
-          likes: [],
-          adds: [],
+          liked: [],
+          added: [],
           dates: ['2025-01-01', '2025-01-02'],
           mood: 'chill',
         })
@@ -61,8 +61,8 @@ export default function Draft() {
   const handleShuffle = async () => {
     const currentDays = useItineraryStore.getState().days
     const data = await createDraftItinerary({
-      likes: [],
-      adds: [],
+      liked: [],
+      added: [],
       dates: currentDays.map((d) => d.date),
       mood: 'chill',
     })
