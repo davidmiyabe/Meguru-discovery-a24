@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { EventItem } from '../lib/types'
 import { useLongPress } from '../hooks/useLongPress'
+import { Button } from './ui'
 
 interface Props {
   events: EventItem[]
@@ -118,8 +119,9 @@ function EventRow({
       {!readOnly && activeId === e.id && e.alternates && (
         <div className="absolute z-10 bg-white border p-1 top-0 left-full ml-2">
           {e.alternates.map((alt) => (
-            <button
+            <Button
               key={alt.id}
+              variant="ghost"
               className="block text-left px-2 py-1 hover:bg-gray-100"
               onClick={() => {
                 onReplace(e.id, alt)
@@ -127,7 +129,7 @@ function EventRow({
               }}
             >
               {alt.title}
-            </button>
+            </Button>
           ))}
         </div>
       )}

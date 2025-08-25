@@ -9,8 +9,8 @@ export function Button({ variant = 'primary', className = '', ...props }: Button
     'inline-flex items-center justify-center rounded font-medium transition-all duration-300 ease-in-out active:scale-95'
   const variantStyles = {
     primary: 'bg-forest text-cream hover:bg-gold',
-    outline: 'border border-border text-forest hover:bg-forest/10',
-    ghost: 'text-forest hover:bg-forest/10',
+    outline: 'border border-slate text-night hover:bg-slate/10',
+    ghost: 'text-night hover:bg-slate/10',
   }[variant]
 
   return (

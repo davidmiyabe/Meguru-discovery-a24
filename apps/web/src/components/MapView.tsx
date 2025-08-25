@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { EventItem } from '../lib/types'
+import { Button } from './ui'
 
 interface Props {
   events: EventItem[]
@@ -43,9 +44,10 @@ export default function MapView({ events, suggestions, onAdd, onReplace, onSelec
             {activeId === e.id && e.alternates && (
               <div className="absolute bg-night text-gold p-1 mt-1 text-sm rounded slide-up">
                 {e.alternates.map((alt) => (
-                  <button
+                  <Button
                     key={alt.id}
-                    className="block text-left w-full px-2 py-1 hover:bg-gold/20"
+                    variant="ghost"
+                    className="block text-left w-full hover:bg-gray-100 px-2 py-1"
                     onClick={(ev) => {
                       ev.stopPropagation()
                       onReplace(e.id, alt)
@@ -53,7 +55,7 @@ export default function MapView({ events, suggestions, onAdd, onReplace, onSelec
                     }}
                   >
                     {alt.title}
-                  </button>
+                  </Button>
                 ))}
               </div>
             )}

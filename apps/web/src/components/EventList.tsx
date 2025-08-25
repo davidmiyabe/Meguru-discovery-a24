@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { EventItem } from '../lib/types'
+import { Button } from './ui'
 
 interface Props {
   events: EventItem[]
@@ -23,18 +24,10 @@ export default function EventList({ events, onReplace, onSelect, onAskAlternates
             <span>{e.title}</span>
             <span className="text-xs bg-gray-200 px-1 rounded">{e.category}</span>
           </div>
-          <div className="space-x-2">
-            <button
-              className="text-sm text-blue-600"
-              onClick={(ev) => {
-                ev.stopPropagation()
-                onAskAlternates(e)
-              }}
-            >
-              Ask AI for alternates
-            </button>
-            {e.alternates && (
-              <button
+          {e.alternates && (
+            <div>
+              <Button
+                variant="ghost"
                 className="text-sm text-blue-600"
                 onClick={(ev) => {
                   ev.stopPropagation()
@@ -42,24 +35,25 @@ export default function EventList({ events, onReplace, onSelect, onAskAlternates
                 }}
               >
                 Replace
-              </button>
-            )}
-          </div>
-          {e.alternates && openId === e.id && (
-            <div className="mt-1 border p-1">
-              {e.alternates.map((alt) => (
-                <button
-                  key={alt.id}
-                  className="block text-left w-full hover:bg-gray-100 px-2 py-1"
-                  onClick={(ev) => {
-                    ev.stopPropagation()
-                    onReplace(e.id, alt)
-                    setOpenId(null)
-                  }}
-                >
-                  {alt.title}
-                </button>
-              ))}
+              </Button>
+              {openId === e.id && (
+                <div className="mt-1 border p-1">
+                  {e.alternates.map((alt) => (
+                    <Button
+                      key={alt.id}
+                      variant="ghost"
+                      className="block text-left w-full hover:bg-gray-100 px-2 py-1"
+                      onClick={(ev) => {
+                        ev.stopPropagation()
+                        onReplace(e.id, alt)
+                        setOpenId(null)
+                      }}
+                    >
+                      {alt.title}
+                    </Button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
