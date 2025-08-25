@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { fetchSuggestions, type Suggestion } from '../api/suggestions'
 import { useItineraryStore } from '../stores/itineraryStore'
+import { MIN_LIKES, MIN_ADDS } from '../lib/constants'
 
 export default function Discover() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
@@ -36,7 +37,7 @@ export default function Discover() {
     next()
   }
 
-  const canBuild = likes >= 5 || adds >= 3
+  const canBuild = likes >= MIN_LIKES || adds >= MIN_ADDS
 
   return (
     <div className='p-4'>
