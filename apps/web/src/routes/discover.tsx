@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { fetchSuggestions, type Suggestion } from '../api/suggestions'
 import { useItineraryStore } from '../stores/itineraryStore'
+import { MIN_LIKES, MIN_ADDS } from '../lib/constants'
 import { createDraftItinerary } from '../lib/api'
 import { useNavigate } from 'react-router-dom'
-
 export default function Discover() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [index, setIndex] = useState(0)
@@ -39,6 +39,7 @@ export default function Discover() {
     next()
   }
 
+  const canBuild = likes >= MIN_LIKES || adds >= MIN_ADDS
   const buildItinerary = async () => {
     const days = await createDraftItinerary({
       likes,
@@ -50,8 +51,6 @@ export default function Discover() {
     setIndex(0)
     navigate('/draft')
   }
-
-  const canBuild = likes.length >= 5 || adds.length >= 3
 
   return (
     <div className='p-4'>
