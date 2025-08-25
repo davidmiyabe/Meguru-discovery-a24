@@ -1,13 +1,13 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import Start from './routes/start'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Discover from './routes/discover'
 
-export default function App() {
+function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/start" replace />} />
-      <Route path="/start" element={<Start />} />
-      <Route path="/discover" element={<Discover />} />
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Discover />} />
+        <Route path='/discover' element={<Discover />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
