@@ -58,6 +58,20 @@ export const SUGGESTIONS: SuggestionRecord[] = [
     companions: ['Solo', 'Partner', 'Friends'],
     categories: ['food'],
   },
+  {
+    id: 5,
+    title: 'Artisanal Market',
+    description: 'Browse local crafts and goods.',
+    city: 'London',
+    companions: ['Solo', 'Partner', 'Friends'],
+  },
+  {
+    id: 6,
+    title: 'Rooftop Bar',
+    description: 'Enjoy skyline views with a drink.',
+    city: 'Tokyo',
+    companions: ['Solo', 'Partner', 'Friends'],
+  },
 ]
 
 export async function fetchSuggestions(
