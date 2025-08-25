@@ -1,3 +1,7 @@
+import type { Suggestion as AISuggestion } from '../types'
+import { mockFetchSuggestions } from '../mocks/ai'
+import { API_BASE_URL, AI_API_KEY } from '../config'
+
 export interface Suggestion {
   id: number
   title: string
@@ -60,4 +64,13 @@ export async function fetchSuggestions(
       (companions.length === 0 ||
         s.companions.some((c) => companions.includes(c))),
   ).map(({ id, title, description }) => ({ id, title, description }))
+}
+
+export async function fetchAISuggestions(
+  prompt: string,
+): Promise<AISuggestion[]> {
+  // TODO: replace mock implementation with real AI API call
+  void API_BASE_URL
+  void AI_API_KEY
+  return mockFetchSuggestions(prompt)
 }
