@@ -16,6 +16,7 @@ export interface TripCriteria {
   month: string
   nights: number
   companions: string[]
+  tasteProfile: string[]
 }
 
 interface SuggestionRecord extends Suggestion {

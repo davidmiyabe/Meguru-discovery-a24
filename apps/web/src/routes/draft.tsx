@@ -5,6 +5,7 @@ import { useToast } from '../components/ToastProvider'
 import { createDraftItinerary } from '../lib/services/itinerary'
 import { saveTrip } from '../lib/services/trip'
 import { useItineraryStore } from '../stores/itineraryStore'
+import { useTripCriteria } from '../stores/tripCriteria'
 import { Button, Card, Sheet } from '../components/ui'
 import Calendar from '../components/Calendar'
 import EventList from '../components/EventList'
@@ -18,6 +19,7 @@ export default function Draft() {
   const navigate = useNavigate()
   const { toast } = useToast()
   const { days, setDays, lockDay } = useItineraryStore()
+  const { city, tasteProfile } = useTripCriteria()
   const [tab, setTab] = useState<'calendar' | 'list' | 'map'>('calendar')
   const [currentDay] = useState(0)
   const [suggestions, setSuggestions] = useState<EventItem[]>(suggestionEvents)
@@ -32,6 +34,8 @@ export default function Draft() {
           added: [],
           dates: ['2025-01-01', '2025-01-02'],
           mood: 'chill',
+          city,
+          tasteProfile,
         })
         setDays(data)
       }
@@ -61,11 +65,14 @@ export default function Draft() {
 
   const handleShuffle = async () => {
     const currentDays = useItineraryStore.getState().days
+    const { city, tasteProfile } = useTripCriteria.getState()
     const data = await createDraftItinerary({
       liked: [],
       added: [],
       dates: currentDays.map((d) => d.date),
       mood: 'chill',
+      city,
+      tasteProfile,
     })
     const merged = currentDays.map((d, i) => (d.locked ? d : data[i]))
     setDays(merged)
