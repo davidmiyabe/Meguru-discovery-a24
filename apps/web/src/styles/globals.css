@@ -44,15 +44,15 @@
 @layer utilities {
   .bg-night {
     background-color: theme('colors.night', '#1A202C');
-    color: theme('colors.cream');
+    color: theme('colors.cream', '#FAF7F1');
   }
 
   .text-gold {
-    color: theme('colors.gold');
+    color: theme('colors.gold', '#D6A14D');
   }
 
   .font-display {
-    font-family: theme('fontFamily.display');
+    font-family: theme('fontFamily.display', 'Fraunces, serif');
   }
 
   .fade-in {
