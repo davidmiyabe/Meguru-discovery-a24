@@ -60,7 +60,7 @@ export async function fetchSuggestions(
   const { city, companions } = criteria
   return SUGGESTIONS.filter(
     (s) =>
-      (!city || s.city === city) &&
+      (!city || s.city.toLowerCase() === city.toLowerCase()) &&
       (companions.length === 0 ||
         s.companions.some((c) => companions.includes(c))),
   ).map(({ id, title, description }) => ({ id, title, description }))
