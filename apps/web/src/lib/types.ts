@@ -26,9 +26,15 @@ export interface Itinerary {
   days: ItineraryDay[]
 }
 
+export interface Collaborator {
+  email: string
+  permission: 'view' | 'edit'
+}
+
 export interface Trip {
   id: string
   title: string
   description: string
   itinerary: Itinerary
+  collaborators: Collaborator[]
 }

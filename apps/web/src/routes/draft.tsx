@@ -6,6 +6,7 @@ import { createDraftItinerary } from '../lib/services/itinerary'
 import { fetchAISuggestions } from '../lib/services/suggestions'
 import { saveTrip } from '../lib/services/trip'
 import { useItineraryStore } from '../stores/itineraryStore'
+import { useTripCriteria } from '../stores/tripCriteria'
 import { Button, Card, Sheet } from '../components/ui'
 import Calendar from '../components/Calendar'
 import EventList from '../components/EventList'
@@ -19,6 +20,7 @@ export default function Draft() {
   const navigate = useNavigate()
   const { toast } = useToast()
   const { days, setDays, lockDay } = useItineraryStore()
+  const { city, tasteProfile } = useTripCriteria()
   const [tab, setTab] = useState<'calendar' | 'list' | 'map'>('calendar')
   const [currentDay] = useState(0)
   const [suggestions, setSuggestions] = useState<EventItem[]>(suggestionEvents)
@@ -33,6 +35,8 @@ export default function Draft() {
           added: [],
           dates: ['2025-01-01', '2025-01-02'],
           mood: 'chill',
+          city,
+          tasteProfile,
         })
         setDays(data)
       }
@@ -62,11 +66,14 @@ export default function Draft() {
 
   const handleShuffle = async () => {
     const currentDays = useItineraryStore.getState().days
+    const { city, tasteProfile } = useTripCriteria.getState()
     const data = await createDraftItinerary({
       liked: [],
       added: [],
       dates: currentDays.map((d) => d.date),
       mood: 'chill',
+      city,
+      tasteProfile,
     })
     const merged = currentDays.map((d, i) => (d.locked ? d : data[i]))
     setDays(merged)
@@ -116,6 +123,7 @@ export default function Draft() {
       title: 'Draft Trip',
       description: 'Draft itinerary',
       itinerary: { id: 'itinerary-draft', suggestions: [], days },
+      collaborators: [],
     }
     await saveTrip(trip)
     toast('Trip saved')
@@ -123,7 +131,7 @@ export default function Draft() {
   }
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 space-y-4 fade-in">
       <div className="flex gap-2">
         <Button variant={tab === 'calendar' ? 'primary' : 'outline'} onClick={() => setTab('calendar')}>
           Calendar
@@ -158,7 +166,7 @@ export default function Draft() {
         <>
           <div className="space-y-4">
             {days.map((day, idx) => (
-              <Card key={day.date} className="space-y-2">
+              <Card key={day.date} className="space-y-2 bg-night text-cream fade-in border-0">
                 <h3 className="font-display text-gold">{day.date}</h3>
                 <ul className="list-disc pl-4">
                   {day.events.map((ev) => (
@@ -206,6 +214,7 @@ export default function Draft() {
       <InviteCollaboratorsModal
         isOpen={inviteOpen}
         onClose={() => setInviteOpen(false)}
+        tripId="draft"
       />
     </div>
   )
