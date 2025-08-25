@@ -1,41 +1,26 @@
 import React from 'react'
+import type { EventItem } from '../lib/types'
 
 interface EventDetailProps {
-  description: string
-  location: string
-  contact: string
-  duration: string
-  suggestions: string[]
+  event: EventItem
 }
 
-const EventDetail: React.FC<EventDetailProps> = ({
-  description,
-  location,
-  contact,
-  duration,
-  suggestions,
-}) => {
+const EventDetail: React.FC<EventDetailProps> = ({ event }) => {
   return (
     <div className="event-detail">
-      <h2>Event Details</h2>
+      <h2>{event.title}</h2>
       <p>
-        <strong>Description:</strong> {description}
+        <strong>Category:</strong> {event.category}
       </p>
       <p>
-        <strong>Location:</strong> {location}
+        <strong>Time:</strong> {event.start / 60}:00 - {event.end / 60}:00
       </p>
-      <p>
-        <strong>Contact:</strong> {contact}
-      </p>
-      <p>
-        <strong>Duration:</strong> {duration}
-      </p>
-      {suggestions.length > 0 && (
+      {event.alternates && event.alternates.length > 0 && (
         <div>
           <h3>Similar Suggestions</h3>
           <ul>
-            {suggestions.map((s, idx) => (
-              <li key={idx}>{s}</li>
+            {event.alternates.map((s) => (
+              <li key={s.id}>{s.title}</li>
             ))}
           </ul>
         </div>

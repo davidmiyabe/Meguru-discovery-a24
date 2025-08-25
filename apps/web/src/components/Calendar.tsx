@@ -6,9 +6,10 @@ interface Props {
   events: EventItem[]
   setEvents: (events: EventItem[]) => void
   onReplace: (id: string, alt: EventItem) => void
+  onSelect?: (e: EventItem) => void
 }
 
-export default function Calendar({ events, setEvents, onReplace }: Props) {
+export default function Calendar({ events, setEvents, onReplace, onSelect }: Props) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [dragId, setDragId] = useState<string | null>(null)
 
@@ -49,6 +50,7 @@ export default function Calendar({ events, setEvents, onReplace }: Props) {
           handleDragStart={handleDragStart}
           handleDrop={handleDrop}
           onReplace={onReplace}
+          onSelect={onSelect}
         />
       ))}
     </div>
@@ -63,6 +65,7 @@ interface RowProps {
   handleDragStart: (id: string) => void
   handleDrop: (id: string) => void
   onReplace: (id: string, alt: EventItem) => void
+  onSelect?: (e: EventItem) => void
 }
 
 function EventRow({
@@ -73,6 +76,7 @@ function EventRow({
   handleDragStart,
   handleDrop,
   onReplace,
+  onSelect,
 }: RowProps) {
   const longPress = useLongPress(() => setActiveId(e.id))
   return (
@@ -82,6 +86,7 @@ function EventRow({
       onDragOver={(ev) => ev.preventDefault()}
       onDrop={() => handleDrop(e.id)}
       className={`p-2 mb-2 border rounded relative ${conflict ? 'bg-red-200' : 'bg-white'}`}
+      onClick={() => onSelect?.(e)}
       {...longPress}
     >
       <div className="font-medium">{e.title}</div>
