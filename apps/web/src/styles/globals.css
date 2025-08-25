@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Inter:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Inter:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-cream text-night font-sans;
+    @apply bg-forest text-cream font-sans;
   }
 
   h1,
@@ -25,7 +25,7 @@
   input,
   select,
   textarea {
-    @apply rounded border border-slate bg-white p-2 focus:outline-none focus:ring-2 focus:ring-gold;
+    @apply rounded border border-border bg-cream p-2 focus:outline-none focus:ring-2 focus:ring-gold;
   }
 
   input[type='radio'],
@@ -38,5 +38,48 @@
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
+  }
+}
+
+@layer utilities {
+  .bg-night {
+    background-color: theme('colors.night');
+    color: theme('colors.cream');
+  }
+
+  .text-gold {
+    color: theme('colors.gold');
+  }
+
+  .font-display {
+    font-family: theme('fontFamily.display');
+  }
+
+  .fade-in {
+    animation: fade-in 0.5s ease-out both;
+  }
+
+  .slide-up {
+    animation: slide-up 0.5s ease-out both;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

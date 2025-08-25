@@ -1,30 +1,35 @@
 import { useState } from 'react'
-import { sendInvite } from '../lib/services/invite'
+import { sendInvite } from '../lib/services/trip'
 import { Sheet } from './ui'
 
 interface InviteCollaboratorsModalProps {
   isOpen: boolean
   onClose: () => void
+  tripId: string
+  onInvited?: () => void
 }
 
 const InviteCollaboratorsModal: React.FC<InviteCollaboratorsModalProps> = ({
   isOpen,
   onClose,
+  tripId,
+  onInvited,
 }) => {
   const [email, setEmail] = useState('')
   const [permission, setPermission] = useState('view')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    await sendInvite(email, permission)
+    await sendInvite(tripId, email, permission)
     setEmail('')
     setPermission('view')
+    onInvited?.()
     onClose()
   }
 
   return (
-    <Sheet open={isOpen} className="p-4 space-y-4">
-      <h2 className="text-lg font-bold">Invite Collaborators</h2>
+    <Sheet open={isOpen} className="p-4 space-y-4 fade-in">
+      <h2 className="text-lg font-display text-gold">Invite Collaborators</h2>
       <form onSubmit={handleSubmit} className="space-y-2">
         <input
           type="email"
@@ -43,10 +48,10 @@ const InviteCollaboratorsModal: React.FC<InviteCollaboratorsModalProps> = ({
           <option value="edit">Edit</option>
         </select>
         <div className="flex gap-2 justify-end">
-          <button type="button" onClick={onClose} className="px-2 py-1 border rounded">
+          <button type="button" onClick={onClose} className="px-2 py-1 rounded bg-night text-gold">
             Cancel
           </button>
-          <button type="submit" className="px-2 py-1 border rounded bg-blue-600 text-white">
+          <button type="submit" className="px-2 py-1 rounded bg-gold text-night">
             Send Invite
           </button>
         </div>

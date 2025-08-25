@@ -91,6 +91,8 @@ export default function Discover() {
       added,
       dates,
       mood,
+      tasteProfile: criteria.tasteProfile || [],
+      city: criteria.city,
     })
     setDays(days)
     setIndex(0)
