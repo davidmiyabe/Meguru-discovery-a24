@@ -1,17 +1,87 @@
-import type { FormEvent } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTripCriteria } from '../stores/tripCriteria'
 
 const cityOptions = ['Paris', 'Tokyo', 'New York', 'London']
 const companionOptions = ['Solo', 'Partner', 'Family', 'Friends']
 
+async function fetchCitySuggestions(query: string): Promise<string[]> {
+  try {
+    const res = await fetch(`/cities?q=${encodeURIComponent(query)}`)
+    if (res.ok) {
+      return res.json()
+    }
+  } catch (e) {
+    // ignore network errors and fall back
+  }
+  return cityOptions.filter((c) =>
+    c.toLowerCase().includes(query.toLowerCase())
+  )
+}
+
+function CityAutocomplete({
+  value,
+  onChange,
+}: {
+  value: string
+  onChange: (v: string) => void
+}) {
+  const [suggestions, setSuggestions] = useState<string[]>([])
+
+  useEffect(() => {
+    if (value.length < 2) {
+      setSuggestions([])
+      return
+    }
+    let ignore = false
+    fetchCitySuggestions(value).then((results) => {
+      if (!ignore) setSuggestions(results)
+    })
+    return () => {
+      ignore = true
+    }
+  }, [value])
+
+  return (
+    <div className="relative">
+      <input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="border p-2 w-full"
+      />
+      {suggestions.length > 0 && (
+        <ul className="absolute z-10 w-full bg-white border max-h-40 overflow-auto">
+          {suggestions.map((s) => (
+            <li
+              key={s}
+              onMouseDown={() => {
+                onChange(s)
+                setSuggestions([])
+              }}
+              className="p-2 cursor-pointer hover:bg-gray-100"
+            >
+              {s}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 export default function Start() {
   const navigate = useNavigate()
   const {
     city,
     setCity,
+    dateMode,
+    setDateMode,
     startDate,
     setStartDate,
+    endDate,
+    setEndDate,
+    month,
+    setMonth,
     nights,
     setNights,
     companions,
@@ -20,7 +90,31 @@ export default function Start() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    const criteria = { city, startDate, nights, companions }
+    const errors: string[] = []
+    if (!city) errors.push('City is required')
+    if (dateMode === 'range') {
+      if (!startDate || !endDate) {
+        errors.push('Start and end dates are required')
+      } else if (new Date(startDate) > new Date(endDate)) {
+        errors.push('End date must be after start date')
+      }
+    } else {
+      if (!month) errors.push('Month is required')
+      if (nights < 1) errors.push('Nights must be at least 1')
+    }
+    if (errors.length) {
+      alert(errors.join('\n'))
+      return
+    }
+    const criteria = {
+      city,
+      dateMode,
+      startDate,
+      endDate,
+      month,
+      nights,
+      companions,
+    }
     navigate('/discover', { state: criteria })
   }
 
@@ -28,39 +122,76 @@ export default function Start() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4">
       <div>
         <label className="block mb-1">City</label>
-        <input
-          list="cities"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          className="border p-2"
-        />
-        <datalist id="cities">
-          {cityOptions.map((c) => (
-            <option key={c} value={c} />
-          ))}
-        </datalist>
+        <CityAutocomplete value={city} onChange={setCity} />
       </div>
 
-      <div>
-        <label className="block mb-1">Start date</label>
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          className="border p-2"
-        />
+      <div className="flex gap-4 items-center">
+        <label className="flex items-center gap-1">
+          <input
+            type="radio"
+            name="dateMode"
+            value="range"
+            checked={dateMode === 'range'}
+            onChange={() => setDateMode('range')}
+          />
+          Exact dates
+        </label>
+        <label className="flex items-center gap-1">
+          <input
+            type="radio"
+            name="dateMode"
+            value="flex"
+            checked={dateMode === 'flex'}
+            onChange={() => setDateMode('flex')}
+          />
+          Month + nights
+        </label>
       </div>
 
-      <div>
-        <label className="block mb-1">Nights</label>
-        <input
-          type="number"
-          min={1}
-          value={nights}
-          onChange={(e) => setNights(Number(e.target.value))}
-          className="border p-2"
-        />
-      </div>
+      {dateMode === 'range' ? (
+        <div className="flex gap-4">
+          <div>
+            <label className="block mb-1">Start date</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="border p-2"
+            />
+          </div>
+          <div>
+            <label className="block mb-1">End date</label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="border p-2"
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="flex gap-4">
+          <div>
+            <label className="block mb-1">Month</label>
+            <input
+              type="month"
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+              className="border p-2"
+            />
+          </div>
+          <div>
+            <label className="block mb-1">Nights</label>
+            <input
+              type="number"
+              min={1}
+              value={nights}
+              onChange={(e) => setNights(Number(e.target.value))}
+              className="border p-2"
+            />
+          </div>
+        </div>
+      )}
 
       <div className="flex gap-2 flex-wrap">
         {companionOptions.map((c) => (

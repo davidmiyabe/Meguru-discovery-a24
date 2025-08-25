@@ -1,4 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+import Start from './routes/start'
+import Discover from './routes/discover'
+import Draft from './routes/draft'
 import { useState } from 'react'
 import EventDetail from './components/EventDetail'
 import InviteCollaboratorsModal from './components/InviteCollaboratorsModal'
@@ -41,40 +45,16 @@ function App() {
   const [count, setCount] = useState(0)
   const { data: trips } = useTrips()
 
+export default function App() {
   return (
-    <>
-      <label>
-        Day:
-        <input
-          type="number"
-          value={currentDay}
-          onChange={(e) => setCurrentDay(Number(e.target.value))}
-        />
-      </label>
+    <BrowserRouter>
       <Routes>
-      <Route path="/" element={<DraftPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/trip/:id" element={<TripPage />} />
+        <Route path="/start" element={<Start />} />
+        <Route path="/discover" element={<Discover />} />
+        <Route path="/draft" element={<Draft />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/trip/:id" element={<TripPage />} />
       </Routes>
-      <EventDetail {...event} />
-      <button onClick={handleOptimize}>AI optimize</button>
-      <button onClick={() => setInviteOpen(true)}>Invite collaborators</button>
-      <InviteCollaboratorsModal
-        isOpen={inviteOpen}
-        onClose={() => setInviteOpen(false)}
-      />
-    </>
+    </BrowserRouter>
   )
 }
-
-function Home() {
-  const [count, setCount] = useState(0)
-  return (
-    <div className="flex gap-4 p-4 text-sm">
-      <Calendar events={events} setEvents={setEvents} onReplace={replaceEvent} />
-      <EventList events={events} onReplace={replaceEvent} />
-      <MapView events={events} suggestions={suggestions} onAdd={addEvent} onReplace={replaceEvent} />
-    </div>
-
-    
-export default App;
