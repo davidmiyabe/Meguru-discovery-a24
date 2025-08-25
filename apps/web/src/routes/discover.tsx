@@ -70,8 +70,8 @@ export default function Discover() {
       ) : (
         <p>No more suggestions</p>
       )}
-      <button
-        className='mt-6 px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50'
+      <Button
+        className='mt-6 disabled:opacity-50'
         disabled={!canBuild}
         onClick={buildItinerary}
       >
