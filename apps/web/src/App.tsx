@@ -12,12 +12,13 @@ import EventList from './components/EventList'
 import MapView from './components/MapView'
 import { initialEvents, suggestionEvents } from './data'
 import type { EventItem } from './lib/types'
-import DraftPage from './pages/DraftPage';
-import ProfilePage from './pages/ProfilePage';
-import TripPage from './pages/TripPage';
+import DraftPage from './pages/DraftPage'
+import ProfilePage from './pages/ProfilePage'
+import TripPage from './pages/TripPage'
 import './App.css'
 import { useTrips } from './lib/queries'
-function App() {
+
+export default function App() {
   const [currentDay, setCurrentDay] = useState(1)
   const [inviteOpen, setInviteOpen] = useState(false)
   const [events, setEvents] = useState<EventItem[]>(initialEvents)
@@ -45,7 +46,6 @@ function App() {
   const [count, setCount] = useState(0)
   const { data: trips } = useTrips()
 
-export default function App() {
   return (
     <BrowserRouter>
       <Routes>
