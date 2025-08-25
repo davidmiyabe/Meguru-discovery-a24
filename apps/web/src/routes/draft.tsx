@@ -5,7 +5,7 @@ import { Button, Card } from '../components/ui'
 import Calendar from '../components/Calendar'
 import EventList from '../components/EventList'
 import MapView from '../components/MapView'
-import type { EventItem } from '../types'
+import type { EventItem } from '../lib/types'
 import { suggestionEvents } from '../data'
 
 export default function Draft() {
@@ -95,33 +95,28 @@ export default function Draft() {
         />
       )}
       {tab === 'list' && (
-        <div className="space-y-4">
-          {days.map((day, idx) => (
-            <Card key={day.date} className="space-y-2">
-              <h3 className="font-display text-gold">{day.date}</h3>
-              <ul className="list-disc pl-4">
-                {day.events.map((ev) => (
-                  <li key={ev.id}>{ev.name}</li>
-                ))}
-              </ul>
-              <Button
-                variant="outline"
-                disabled={day.locked}
-                onClick={() => lockDay(idx)}
-              >
-                {day.locked ? 'Accepted' : 'Accept Day'}
-              </Button>
-            </Card>
-          ))}
-        <EventList events={currentEvents} onReplace={onReplace} />
-      )}
-
-      {current && (
-        <div>
-          <button disabled={current.locked} onClick={() => lockDay(currentDay)}>
-            {current.locked ? 'Accepted' : 'Accept Day'}
-          </button>
-        </div>
+        <>
+          <div className="space-y-4">
+            {days.map((day, idx) => (
+              <Card key={day.date} className="space-y-2">
+                <h3 className="font-display text-gold">{day.date}</h3>
+                <ul className="list-disc pl-4">
+                  {day.events.map((ev) => (
+                    <li key={ev.id}>{ev.name}</li>
+                  ))}
+                </ul>
+                <Button
+                  variant="outline"
+                  disabled={day.locked}
+                  onClick={() => lockDay(idx)}
+                >
+                  {day.locked ? 'Accepted' : 'Accept Day'}
+                </Button>
+              </Card>
+            ))}
+          </div>
+          <EventList events={currentEvents} onReplace={onReplace} />
+        </>
       )}
 
       <div className="flex gap-2">
