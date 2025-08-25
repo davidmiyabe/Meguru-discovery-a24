@@ -30,14 +30,10 @@ export default function Draft() {
   }, [days, setDays])
 
   const current = days[currentDay]
-  const currentEvents = (current?.events as EventItem[]) ?? []
+  const currentEvents = current?.events ?? []
 
   const setEvents = (events: EventItem[]) => {
-    setDays(
-      days.map((d, i) =>
-        i === currentDay ? { ...d, events: events as unknown as typeof d.events } : d,
-      ),
-    )
+    setDays(days.map((d, i) => (i === currentDay ? { ...d, events } : d)))
   }
 
   const onReplace = (id: string, alt: EventItem) => {
@@ -102,7 +98,7 @@ export default function Draft() {
                 <h3 className="font-display text-gold">{day.date}</h3>
                 <ul className="list-disc pl-4">
                   {day.events.map((ev) => (
-                    <li key={ev.id}>{ev.name}</li>
+                    <li key={ev.id}>{ev.title}</li>
                   ))}
                 </ul>
                 <Button
