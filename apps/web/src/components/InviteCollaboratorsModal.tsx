@@ -1,24 +1,29 @@
 import { useState } from 'react'
-import { sendInvite } from '../lib/services/invite'
+import { sendInvite } from '../lib/services/trip'
 import { Sheet } from './ui'
 
 interface InviteCollaboratorsModalProps {
   isOpen: boolean
   onClose: () => void
+  tripId: string
+  onInvited?: () => void
 }
 
 const InviteCollaboratorsModal: React.FC<InviteCollaboratorsModalProps> = ({
   isOpen,
   onClose,
+  tripId,
+  onInvited,
 }) => {
   const [email, setEmail] = useState('')
   const [permission, setPermission] = useState('view')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    await sendInvite(email, permission)
+    await sendInvite(tripId, email, permission)
     setEmail('')
     setPermission('view')
+    onInvited?.()
     onClose()
   }
 

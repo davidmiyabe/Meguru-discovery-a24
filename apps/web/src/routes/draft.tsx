@@ -84,6 +84,7 @@ export default function Draft() {
       title: 'Draft Trip',
       description: 'Draft itinerary',
       itinerary: { id: 'itinerary-draft', suggestions: [], days },
+      collaborators: [],
     }
     await saveTrip(trip)
     toast('Trip saved')
@@ -173,6 +174,7 @@ export default function Draft() {
       <InviteCollaboratorsModal
         isOpen={inviteOpen}
         onClose={() => setInviteOpen(false)}
+        tripId="draft"
       />
     </div>
   )
