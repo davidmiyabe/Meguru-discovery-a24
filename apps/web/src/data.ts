@@ -53,4 +53,22 @@ export const suggestionEvents: EventItem[] = [
   },
   breakfastAlt,
   museumAlt,
+  {
+    id: 'market',
+    title: 'Market',
+    start: 15 * 60,
+    end: 16 * 60,
+    category: 'shopping',
+    position: { x: 220, y: 140 },
+    suggested: true,
+  },
+  {
+    id: 'sunset-point',
+    title: 'Sunset Point',
+    start: 18 * 60,
+    end: 19 * 60,
+    category: 'outdoor',
+    position: { x: 260, y: 180 },
+    suggested: true,
+  },
 ]

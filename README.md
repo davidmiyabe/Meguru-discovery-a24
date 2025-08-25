@@ -28,9 +28,8 @@ The A24 travel planner is a conceptual web app that helps travelers craft cinema
 ## Build Itinerary Criteria
 
 For development purposes, the **Build Itinerary** button becomes active once
-you've liked at least **2** suggestions or added **1** suggestion to your
-itinerary. These thresholds are lowered temporarily to accommodate the small
-mock dataset.
+you've liked at least **5** suggestions or added **3** suggestions to your
+itinerary.
 
 ## Future Work
 
