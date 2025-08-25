@@ -1,4 +1,4 @@
-import type { EventItem } from './types'
+import type { EventItem } from './lib/types'
 
 const breakfastAlt: EventItem = {
   id: 'alt-breakfast',

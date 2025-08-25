@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { EventItem } from '../types'
+import type { EventItem } from '../lib/types'
 import { useLongPress } from '../hooks/useLongPress'
 
 interface Props {
