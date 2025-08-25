@@ -14,7 +14,6 @@ import EventList from './components/EventList'
 import MapView from './components/MapView'
 import { initialEvents, suggestionEvents } from './data'
 import type { EventItem } from './lib/types'
-import './App.css'
 import { useTrips } from './lib/queries'
 
 export default function App() {
