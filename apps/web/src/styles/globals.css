@@ -7,17 +7,82 @@
   --paper: #FAF7F1;
   --border: #E6E1D9;
   --accent: #D6A14D;
+  --success: #2E7D32;
+  --warning: #ED6C02;
+  --danger: #C62828;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Fraunces', serif;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
 }
 
-body {
-  @apply bg-[var(--paper)] text-[var(--ink)] font-inter;
+@layer base {
+  body {
+    @apply bg-[var(--paper)] text-[var(--ink)];
+    font-family: var(--font-sans);
+  }
 }
 
-.btn        {@apply px-4 py-2 rounded transition-all duration-300 ease-in-out;}
-.btn-primary{@apply btn bg-[var(--ink)] text-[var(--paper)];}
-.btn-outline{@apply btn border border-[var(--border)];}
-.btn-ghost  {@apply btn bg-transparent;}
-.chip       {@apply inline-block rounded-full px-2 py-1 text-xs bg-[var(--border)];}
-.card       {@apply rounded border border-[var(--border)] bg-[var(--paper)];}
-.card--elevated{@apply card shadow-md;}
-.sheet      {@apply fixed inset-x-0 bottom-0 rounded-t-lg p-4 bg-[var(--paper)];}
+@layer components {
+  .font-display{font-family: var(--font-display);}
+
+  .btn {
+    padding: var(--space-2) var(--space-4);
+    border-radius: 0.25rem;
+    transition: all 0.3s ease-in-out;
+  }
+  .btn-primary {
+    background-color: var(--ink);
+    color: var(--paper);
+  }
+  .btn-outline {
+    border: 1px solid var(--border);
+  }
+  .btn-ghost {
+    background-color: transparent;
+  }
+  .btn-primary:hover { background-color: var(--accent); }
+  .btn-outline:hover,
+  .btn-ghost:hover { background-color: var(--border); }
+
+  .chip {
+    display: inline-block;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    background-color: var(--border);
+    padding: var(--space-1) var(--space-2);
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .card {
+    border-radius: 0.25rem;
+    border: 1px solid var(--border);
+    background-color: var(--paper);
+    padding: var(--space-4);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  .card--elevated {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  .card--elevated:hover {
+    box-shadow: 0 10px 15px rgba(0,0,0,0.15);
+  }
+
+  .sheet {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    background-color: var(--paper);
+    padding: var(--space-4);
+    transition: transform 0.3s ease-in-out;
+  }
+}
