@@ -6,9 +6,10 @@ interface Props {
   events: EventItem[]
   onReplace: (id: string, alt: EventItem) => void
   onSelect?: (e: EventItem) => void
+  onAskAlternates: (e: EventItem) => void
 }
 
-export default function EventList({ events, onReplace, onSelect }: Props) {
+export default function EventList({ events, onReplace, onSelect, onAskAlternates }: Props) {
   const [openId, setOpenId] = useState<string | null>(null)
   return (
     <div className="w-64 border p-2">

@@ -5,26 +5,31 @@ import { Sheet, Button } from './ui'
 interface InviteCollaboratorsModalProps {
   isOpen: boolean
   onClose: () => void
+  tripId: string
+  onInvited?: () => void
 }
 
 const InviteCollaboratorsModal: React.FC<InviteCollaboratorsModalProps> = ({
   isOpen,
   onClose,
+  tripId,
+  onInvited,
 }) => {
   const [email, setEmail] = useState('')
   const [permission, setPermission] = useState('view')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    await sendInvite(email, permission)
+    await sendInvite(tripId, email, permission)
     setEmail('')
     setPermission('view')
+    onInvited?.()
     onClose()
   }
 
   return (
-    <Sheet open={isOpen} className="p-4 space-y-4">
-      <h2 className="text-lg font-bold">Invite Collaborators</h2>
+    <Sheet open={isOpen} className="p-4 space-y-4 fade-in">
+      <h2 className="text-lg font-display text-gold">Invite Collaborators</h2>
       <form onSubmit={handleSubmit} className="space-y-2">
         <input
           type="email"
@@ -47,6 +52,7 @@ const InviteCollaboratorsModal: React.FC<InviteCollaboratorsModalProps> = ({
             Cancel
           </Button>
           <Button type="submit" className="px-2 py-1">
+
             Send Invite
           </Button>
         </div>

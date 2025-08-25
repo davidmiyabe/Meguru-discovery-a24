@@ -8,10 +8,11 @@ interface Props {
   setEvents: (events: EventItem[]) => void
   onReplace: (id: string, alt: EventItem) => void
   onSelect?: (e: EventItem) => void
+  onAskAlternates?: (e: EventItem) => void
   readOnly?: boolean
 }
 
-export default function Calendar({ events, setEvents, onReplace, onSelect, readOnly }: Props) {
+export default function Calendar({ events, setEvents, onReplace, onSelect, onAskAlternates, readOnly }: Props) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [dragId, setDragId] = useState<string | null>(null)
 
@@ -56,6 +57,7 @@ export default function Calendar({ events, setEvents, onReplace, onSelect, readO
           handleDrop={handleDrop}
           onReplace={onReplace}
           onSelect={onSelect}
+          onAskAlternates={onAskAlternates}
           readOnly={readOnly}
         />
       ))}
@@ -72,6 +74,7 @@ interface RowProps {
   handleDrop: (id: string) => void
   onReplace: (id: string, alt: EventItem) => void
   onSelect?: (e: EventItem) => void
+  onAskAlternates?: (e: EventItem) => void
   readOnly?: boolean
 }
 
@@ -84,6 +87,7 @@ function EventRow({
   handleDrop,
   onReplace,
   onSelect,
+  onAskAlternates,
   readOnly,
 }: RowProps) {
   const longPress = readOnly ? undefined : useLongPress(() => setActiveId(e.id))
@@ -101,6 +105,17 @@ function EventRow({
       <div className="text-xs">
         {e.start / 60}:00 - {e.end / 60}:00
       </div>
+      {!readOnly && onAskAlternates && (
+        <button
+          className="text-xs text-blue-600"
+          onClick={(ev) => {
+            ev.stopPropagation()
+            onAskAlternates(e)
+          }}
+        >
+          Ask AI for alternates
+        </button>
+      )}
       {!readOnly && activeId === e.id && e.alternates && (
         <div className="absolute z-10 bg-white border p-1 top-0 left-full ml-2">
           {e.alternates.map((alt) => (
