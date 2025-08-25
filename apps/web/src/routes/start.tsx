@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '../components/ui'
+import { Button, Card } from '../components/ui'
 import { useTripCriteria } from '../stores/tripCriteria'
 import { useCitySearch } from '../hooks/useCitySearch'
 
@@ -30,10 +30,10 @@ function CityAutocomplete({
           onChange(e.target.value)
           setOpen(true)
         }}
-        className="border p-2 w-full"
+        className="w-full"
       />
       {open && suggestions.length > 0 && (
-        <ul className="absolute z-10 w-full bg-white border max-h-40 overflow-auto">
+        <ul className="absolute z-10 mt-1 w-full max-h-40 overflow-auto rounded border border-slate bg-cream shadow-md">
           {suggestions.map((s) => (
             <li
               key={s}
@@ -41,7 +41,7 @@ function CityAutocomplete({
                 onChange(s)
                 setOpen(false)
               }}
-              className="p-2 cursor-pointer hover:bg-gray-100"
+              className="cursor-pointer p-2 hover:bg-gold/20"
             >
               {s}
             </li>
@@ -102,33 +102,33 @@ export default function Start() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="mx-auto flex max-w-md flex-col gap-4 p-4"
-    >
+    <Card elevated className="mx-auto max-w-md">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div>
         <label className="mb-1 block font-display text-gold">City</label>
         <CityAutocomplete value={city} onChange={setCity} />
       </div>
 
-      <div className="flex gap-4 items-center">
-        <label className="flex items-center gap-1">
+      <div className="flex items-center gap-4">
+        <label className="flex items-center gap-1 font-display">
           <input
             type="radio"
             name="dateMode"
             value="range"
             checked={dateMode === 'range'}
             onChange={() => setDateMode('range')}
+            className="accent-gold"
           />
           Exact dates
         </label>
-        <label className="flex items-center gap-1">
+        <label className="flex items-center gap-1 font-display">
           <input
             type="radio"
             name="dateMode"
             value="flex"
             checked={dateMode === 'flex'}
             onChange={() => setDateMode('flex')}
+            className="accent-gold"
           />
           Month + nights
         </label>
@@ -136,44 +136,44 @@ export default function Start() {
 
       {dateMode === 'range' ? (
         <div className="flex gap-4">
-          <div>
-            <label className="block mb-1">Start date</label>
+          <div className="flex-1">
+            <label className="mb-1 block font-display">Start date</label>
             <input
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="border p-2"
+              className="w-full"
             />
           </div>
-          <div>
-            <label className="block mb-1">End date</label>
+          <div className="flex-1">
+            <label className="mb-1 block font-display">End date</label>
             <input
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="border p-2"
+              className="w-full"
             />
           </div>
         </div>
       ) : (
         <div className="flex gap-4">
-          <div>
-            <label className="block mb-1">Month</label>
+          <div className="flex-1">
+            <label className="mb-1 block font-display">Month</label>
             <input
               type="month"
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-              className="border p-2"
+              className="w-full"
             />
           </div>
-          <div>
-            <label className="block mb-1">Nights</label>
+          <div className="flex-1">
+            <label className="mb-1 block font-display">Nights</label>
             <input
               type="number"
               min={1}
               value={nights}
               onChange={(e) => setNights(Number(e.target.value))}
-              className="border p-2"
+              className="w-full"
             />
           </div>
         </div>
@@ -181,12 +181,12 @@ export default function Start() {
 
       <div className="flex flex-wrap gap-2">
         {companionOptions.map((c) => (
-          <label key={c} className="cursor-pointer">
+          <label key={c} className="inline-flex cursor-pointer items-center gap-1 font-display text-sm">
             <input
               type="checkbox"
               checked={companions.includes(c)}
               onChange={() => toggleCompanion(c)}
-              className="mr-1"
+              className="accent-gold"
             />
             {c}
           </label>
@@ -196,6 +196,7 @@ export default function Start() {
       <Button type="submit" className="mt-2">
         Discover
       </Button>
-    </form>
+      </form>
+    </Card>
   )
 }

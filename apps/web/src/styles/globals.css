@@ -9,6 +9,30 @@
     @apply bg-cream text-night font-sans;
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display text-gold;
+  }
+
+  a {
+    @apply text-gold underline-offset-4 hover:underline;
+  }
+
+  input,
+  select,
+  textarea {
+    @apply rounded border border-slate bg-white p-2 focus:outline-none focus:ring-2 focus:ring-gold;
+  }
+
+  input[type='radio'],
+  input[type='checkbox'] {
+    @apply accent-gold p-0;
+  }
+
   #root {
     max-width: 1280px;
     margin: 0 auto;
