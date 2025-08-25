@@ -3,4 +3,3 @@ export async function sendInvite(email: string, permission: string) {
   console.log('sendInvite', email, permission)
   return { success: true }
 }
-

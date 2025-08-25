@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { ItineraryDay } from '../lib/api'
+import type { ItineraryDay } from '../lib/services/itinerary'
 
 type DayWithLock = ItineraryDay & { locked?: boolean }
 
