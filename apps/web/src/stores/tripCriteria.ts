@@ -25,7 +25,7 @@ export const useTripCriteria = create<TripCriteriaState>((set) => ({
   month: '',
   nights: 1,
   companions: [],
-  setCity: (city) => set({ city }),
+  setCity: (city) => set({ city: city.toLowerCase() }),
   setDateMode: (mode) => set({ dateMode: mode }),
   setStartDate: (date) => set({ startDate: date }),
   setEndDate: (date) => set({ endDate: date }),
