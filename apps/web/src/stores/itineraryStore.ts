@@ -5,18 +5,18 @@ type DayWithLock = ItineraryDay & { locked?: boolean }
 
 interface ItineraryState {
   days: DayWithLock[]
-  likes: number
-  adds: number
+  liked: string[]
+  added: string[]
   setDays: (days: DayWithLock[]) => void
   lockDay: (index: number) => void
-  addLike: () => void
-  addAdd: () => void
+  addLike: (id: string) => void
+  addAdd: (id: string) => void
 }
 
 export const useItineraryStore = create<ItineraryState>((set) => ({
   days: [],
-  likes: 0,
-  adds: 0,
+  liked: [],
+  added: [],
   setDays: (days) => set({ days }),
   lockDay: (index) =>
     set((state) => {
@@ -25,6 +25,9 @@ export const useItineraryStore = create<ItineraryState>((set) => ({
       )
       return { days: updated }
     }),
-  addLike: () => set((state) => ({ likes: state.likes + 1 })),
-  addAdd: () => set((state) => ({ adds: state.adds + 1 })),
+  addLike: (id) => set((state) => ({ liked: [...state.liked, id] })),
+  addAdd: (id) => set((state) => ({ added: [...state.added, id] })),
 }))
+
+export const useLikes = () => useItineraryStore((s) => s.liked.length)
+export const useAdds = () => useItineraryStore((s) => s.added.length)
