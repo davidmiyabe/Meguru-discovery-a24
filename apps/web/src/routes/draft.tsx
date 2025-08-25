@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import { createDraftItinerary } from '../lib/services/itinerary'
 import { saveTrip } from '../lib/services/trip'
 import { useItineraryStore } from '../stores/itineraryStore'
-import { Button, Card } from '../components/ui'
+import { Button, Card, Sheet } from '../components/ui'
 import Calendar from '../components/Calendar'
 import EventList from '../components/EventList'
 import MapView from '../components/MapView'
-import { useToast } from '../components/ToastProvider'
+import EventDetail from '../components/EventDetail'
+import InviteCollaboratorsModal from '../components/InviteCollaboratorsModal'
 import type { EventItem } from '../lib/types'
 import { suggestionEvents } from '../data'
 
@@ -19,6 +20,8 @@ export default function Draft() {
   const [tab, setTab] = useState<'calendar' | 'list' | 'map'>('calendar')
   const [currentDay] = useState(0)
   const [suggestions, setSuggestions] = useState<EventItem[]>(suggestionEvents)
+  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null)
+  const [inviteOpen, setInviteOpen] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -94,7 +97,12 @@ export default function Draft() {
       </div>
 
       {tab === 'calendar' && (
-        <Calendar events={currentEvents} setEvents={setEvents} onReplace={onReplace} />
+        <Calendar
+          events={currentEvents}
+          setEvents={setEvents}
+          onReplace={onReplace}
+          onSelect={setSelectedEvent}
+        />
       )}
       {tab === 'map' && (
         <MapView
@@ -102,6 +110,7 @@ export default function Draft() {
           suggestions={suggestions}
           onAdd={onAdd}
           onReplace={onReplace}
+          onSelect={setSelectedEvent}
         />
       )}
       {tab === 'list' && (
@@ -125,7 +134,11 @@ export default function Draft() {
               </Card>
             ))}
           </div>
-          <EventList events={currentEvents} onReplace={onReplace} />
+          <EventList
+            events={currentEvents}
+            onReplace={onReplace}
+            onSelect={setSelectedEvent}
+          />
         </>
       )}
 
@@ -134,7 +147,23 @@ export default function Draft() {
         <Button variant="outline" onClick={handleSave}>
           Save Trip
         </Button>
+        <Button variant="outline" onClick={() => setInviteOpen(true)}>
+          Invite
+        </Button>
       </div>
+
+      {selectedEvent && (
+        <Sheet open className="p-4 space-y-2">
+          <EventDetail event={selectedEvent} />
+          <Button variant="outline" onClick={() => setSelectedEvent(null)}>
+            Close
+          </Button>
+        </Sheet>
+      )}
+      <InviteCollaboratorsModal
+        isOpen={inviteOpen}
+        onClose={() => setInviteOpen(false)}
+      />
     </div>
   )
 }

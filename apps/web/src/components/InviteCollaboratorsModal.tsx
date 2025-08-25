@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { sendInvite } from '../lib/services/invite'
+import { Sheet } from './ui'
 
 interface InviteCollaboratorsModalProps {
   isOpen: boolean
@@ -21,34 +22,36 @@ const InviteCollaboratorsModal: React.FC<InviteCollaboratorsModalProps> = ({
     onClose()
   }
 
-  if (!isOpen) return null
-
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <h2>Invite Collaborators</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            required
-          />
-          <select
-            value={permission}
-            onChange={(e) => setPermission(e.target.value)}
-          >
-            <option value="view">View</option>
-            <option value="edit">Edit</option>
-          </select>
-          <button type="submit">Send Invite</button>
-          <button type="button" onClick={onClose}>
+    <Sheet open={isOpen} className="p-4 space-y-4">
+      <h2 className="text-lg font-bold">Invite Collaborators</h2>
+      <form onSubmit={handleSubmit} className="space-y-2">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          required
+          className="w-full border p-2 rounded"
+        />
+        <select
+          value={permission}
+          onChange={(e) => setPermission(e.target.value)}
+          className="w-full border p-2 rounded"
+        >
+          <option value="view">View</option>
+          <option value="edit">Edit</option>
+        </select>
+        <div className="flex gap-2 justify-end">
+          <button type="button" onClick={onClose} className="px-2 py-1 border rounded">
             Cancel
           </button>
-        </form>
-      </div>
-    </div>
+          <button type="submit" className="px-2 py-1 border rounded bg-blue-600 text-white">
+            Send Invite
+          </button>
+        </div>
+      </form>
+    </Sheet>
   )
 }
 

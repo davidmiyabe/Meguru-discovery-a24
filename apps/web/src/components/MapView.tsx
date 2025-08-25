@@ -6,9 +6,10 @@ interface Props {
   suggestions: EventItem[]
   onAdd: (e: EventItem) => void
   onReplace: (id: string, alt: EventItem) => void
+  onSelect?: (e: EventItem) => void
 }
 
-export default function MapView({ events, suggestions, onAdd, onReplace }: Props) {
+export default function MapView({ events, suggestions, onAdd, onReplace, onSelect }: Props) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const width = 260
   const height = 180
@@ -29,18 +30,24 @@ export default function MapView({ events, suggestions, onAdd, onReplace }: Props
           />
         ))}
         {events.map((e) => (
-          <div key={e.id} className="absolute" style={{ left: e.position.x, top: e.position.y }}>
-            <div
-              className="w-3 h-3 bg-blue-600 rounded-full -translate-x-1/2 -translate-y-1/2"
-              onClick={() => setActiveId(activeId === e.id ? null : e.id)}
-            />
+          <div
+            key={e.id}
+            className="absolute"
+            style={{ left: e.position.x, top: e.position.y }}
+            onClick={() => {
+              onSelect?.(e)
+              setActiveId(activeId === e.id ? null : e.id)
+            }}
+          >
+            <div className="w-3 h-3 bg-blue-600 rounded-full -translate-x-1/2 -translate-y-1/2" />
             {activeId === e.id && e.alternates && (
               <div className="absolute bg-white border p-1 mt-1 text-sm">
                 {e.alternates.map((alt) => (
                   <button
                     key={alt.id}
                     className="block text-left w-full hover:bg-gray-100 px-2 py-1"
-                    onClick={() => {
+                    onClick={(ev) => {
+                      ev.stopPropagation()
                       onReplace(e.id, alt)
                       setActiveId(null)
                     }}
