@@ -2,23 +2,9 @@ import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui'
 import { useTripCriteria } from '../stores/tripCriteria'
+import { useCitySearch } from '../hooks/useCitySearch'
 
-const cityOptions = ['Paris', 'Tokyo', 'New York', 'London']
 const companionOptions = ['Solo', 'Partner', 'Family', 'Friends']
-
-async function fetchCitySuggestions(query: string): Promise<string[]> {
-  try {
-    const res = await fetch(`/cities?q=${encodeURIComponent(query)}`)
-    if (res.ok) {
-      return res.json()
-    }
-  } catch (e) {
-    // ignore network errors and fall back
-  }
-  return cityOptions.filter((c) =>
-    c.toLowerCase().includes(query.toLowerCase())
-  )
-}
 
 function CityAutocomplete({
   value,
@@ -27,19 +13,12 @@ function CityAutocomplete({
   value: string
   onChange: (v: string) => void
 }) {
-  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [open, setOpen] = useState(false)
+  const { data: suggestions = [] } = useCitySearch(value)
 
   useEffect(() => {
     if (value.length < 2) {
-      setSuggestions([])
-      return
-    }
-    let ignore = false
-    fetchCitySuggestions(value).then((results) => {
-      if (!ignore) setSuggestions(results)
-    })
-    return () => {
-      ignore = true
+      setOpen(false)
     }
   }, [value])
 
@@ -47,17 +26,20 @@ function CityAutocomplete({
     <div className="relative">
       <input
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          onChange(e.target.value)
+          setOpen(true)
+        }}
         className="border p-2 w-full"
       />
-      {suggestions.length > 0 && (
+      {open && suggestions.length > 0 && (
         <ul className="absolute z-10 w-full bg-white border max-h-40 overflow-auto">
           {suggestions.map((s) => (
             <li
               key={s}
               onMouseDown={() => {
                 onChange(s)
-                setSuggestions([])
+                setOpen(false)
               }}
               className="p-2 cursor-pointer hover:bg-gray-100"
             >
