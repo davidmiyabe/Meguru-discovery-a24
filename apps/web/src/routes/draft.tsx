@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { useToast } from '../components/ToastProvider'
 import { createDraftItinerary } from '../lib/services/itinerary'
 import { saveTrip } from '../lib/services/trip'
 import { useItineraryStore } from '../stores/itineraryStore'
