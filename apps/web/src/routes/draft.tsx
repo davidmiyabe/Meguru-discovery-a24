@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { createDraftItinerary } from '../lib/services/itinerary'
+import { saveTrip } from '../lib/services/trip'
 import { useItineraryStore } from '../stores/itineraryStore'
 import { Button, Card } from '../components/ui'
 import Calendar from '../components/Calendar'
 import EventList from '../components/EventList'
 import MapView from '../components/MapView'
+import { useToast } from '../components/ToastProvider'
 import type { EventItem } from '../lib/types'
 import { suggestionEvents } from '../data'
 
 export default function Draft() {
+  const navigate = useNavigate()
+  const { toast } = useToast()
   const { days, setDays, lockDay } = useItineraryStore()
   const [tab, setTab] = useState<'calendar' | 'list' | 'map'>('calendar')
   const [currentDay] = useState(0)
@@ -65,8 +71,16 @@ export default function Draft() {
     setDays(merged)
   }
 
-  const handleSave = () => {
-    console.log('Saving trip', days)
+  const handleSave = async () => {
+    const trip = {
+      id: 'draft',
+      title: 'Draft Trip',
+      description: 'Draft itinerary',
+      itinerary: { id: 'itinerary-draft', suggestions: [], days } as any,
+    }
+    await saveTrip(trip)
+    toast('Trip saved')
+    navigate('/profile')
   }
 
   return (
