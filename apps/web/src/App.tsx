@@ -4,8 +4,7 @@ import Start from './routes/start'
 import Discover from './routes/discover'
 import Draft from './routes/draft'
 import ProfilePage from './pages/ProfilePage'
-import TripPage from './pages/TripPage'
-
+import TripPage from './pages/TripPage
 import './App.css'
 
 export default function App() {
