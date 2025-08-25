@@ -6,7 +6,7 @@ type DayWithLock = ItineraryDay & { locked?: boolean }
 interface ItineraryState {
   days: DayWithLock[]
   setDays: (days: DayWithLock[]) => void
-  lockDay: (index: number) => void
+  lockDay: (index: number) => voi
 }
 
 export const useItineraryStore = create<ItineraryState>((set) => ({
