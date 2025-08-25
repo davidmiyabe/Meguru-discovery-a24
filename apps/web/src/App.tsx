@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
 import Calendar from './components/Calendar'
 import EventList from './components/EventList'
@@ -18,13 +19,11 @@ function App() {
     setSuggestions((sugs) => sugs.filter((s) => s.id !== e.id))
   }
 
+function Home() {
+  const [count, setCount] = useState(0)
   return (
     <div className="flex gap-4 p-4 text-sm">
       <Calendar events={events} setEvents={setEvents} onReplace={replaceEvent} />
       <EventList events={events} onReplace={replaceEvent} />
       <MapView events={events} suggestions={suggestions} onAdd={addEvent} onReplace={replaceEvent} />
     </div>
-  )
-}
-
-export default App
