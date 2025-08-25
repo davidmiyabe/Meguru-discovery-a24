@@ -8,7 +8,11 @@ const trips: Trip[] = [
     itinerary: {
       id: 'i1',
       suggestions: [
-        { id: 's1', text: 'Mock trip suggestion' },
+        {
+          id: 's1',
+          title: 'Mock trip suggestion',
+          description: 'Description for mock trip suggestion',
+        },
       ],
     },
   },

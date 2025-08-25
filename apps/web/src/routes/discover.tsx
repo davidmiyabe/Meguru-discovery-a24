@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
-import { fetchSuggestions, type Suggestion } from '../lib/services/suggestions'
+import { fetchSuggestions } from '../lib/services/ai'
+import type { Suggestion } from '../lib/types'
 import { useItineraryStore } from '../stores/itineraryStore'
+import { useTripCriteria } from '../stores/tripCriteria'
 import { Button, Card } from '../components/ui'
 import { MIN_LIKES, MIN_ADDS } from '../lib/constants'
 import { createDraftItinerary } from '../lib/services/itinerary'
@@ -10,11 +12,29 @@ export default function Discover() {
   const [index, setIndex] = useState(0)
   const [startX, setStartX] = useState<number | null>(null)
   const { addLike, addAdd, likes, adds, setDays } = useItineraryStore()
+  const {
+    city,
+    dateMode,
+    startDate,
+    endDate,
+    month,
+    nights,
+    companions,
+  } = useTripCriteria()
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetchSuggestions({}).then(setSuggestions)
-  }, [])
+    const criteria = {
+      city,
+      dateMode,
+      startDate,
+      endDate,
+      month,
+      nights,
+      companions,
+    }
+    fetchSuggestions(criteria).then(setSuggestions)
+  }, [city, dateMode, startDate, endDate, month, nights, companions])
 
   const current = suggestions[index]
   const next = () => setIndex((i) => i + 1)

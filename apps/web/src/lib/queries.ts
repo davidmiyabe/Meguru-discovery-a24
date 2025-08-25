@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchSuggestions } from './services/ai';
 import { getTrips, saveTrip } from './services/storage';
-import type { Trip } from './types';
+import type { Trip, TripCriteria } from './types';
 
-export function useSuggestions(prompt: string) {
+export function useSuggestions(criteria: TripCriteria) {
   return useQuery({
-    queryKey: ['suggestions', prompt],
-    queryFn: () => fetchSuggestions(prompt),
-    enabled: !!prompt,
+    queryKey: ['suggestions', criteria],
+    queryFn: () => fetchSuggestions(criteria),
+    enabled: !!criteria,
   });
 }
 

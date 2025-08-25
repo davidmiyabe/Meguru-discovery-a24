@@ -9,9 +9,20 @@ export interface EventItem {
   suggested?: boolean
 }
 
+export interface TripCriteria {
+  city: string
+  dateMode: 'range' | 'flex'
+  startDate: string
+  endDate: string
+  month: string
+  nights: number
+  companions: string[]
+}
+
 export interface Suggestion {
   id: string
-  text: string
+  title: string
+  description: string
 }
 
 export interface Itinerary {
