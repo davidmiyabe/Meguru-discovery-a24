@@ -76,7 +76,7 @@ export default function Draft() {
       id: 'draft',
       title: 'Draft Trip',
       description: 'Draft itinerary',
-      itinerary: { id: 'itinerary-draft', suggestions: [], days } as any,
+      itinerary: { id: 'itinerary-draft', suggestions: [], days },
     }
     await saveTrip(trip)
     toast('Trip saved')

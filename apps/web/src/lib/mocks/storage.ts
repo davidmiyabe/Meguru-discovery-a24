@@ -1,4 +1,5 @@
 import type { Trip } from '../types';
+import { initialEvents } from '../../data';
 
 const trips: Trip[] = [
   {
@@ -7,8 +8,9 @@ const trips: Trip[] = [
     description: 'Mock trip description',
     itinerary: {
       id: 'i1',
-      suggestions: [
-        { id: 's1', text: 'Mock trip suggestion' },
+      suggestions: [{ id: 's1', text: 'Mock trip suggestion' }],
+      days: [
+        { date: '2025-01-01', events: initialEvents },
       ],
     },
   },
