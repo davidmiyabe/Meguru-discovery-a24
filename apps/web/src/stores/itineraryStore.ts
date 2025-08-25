@@ -25,7 +25,8 @@ export const useItineraryStore = create<ItineraryState>((set) => ({
       )
       return { days: updated }
     }),
-  addLike: (id) => set((state) => ({ liked: [...state.liked, id] })),
+  addLike: (id) =>
+    set((state) => ({ liked: [...state.liked, id] })),
   addAdd: (id) => set((state) => ({ added: [...state.added, id] })),
 }))
 
