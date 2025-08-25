@@ -29,3 +29,6 @@ export const useItineraryStore = create<ItineraryState>((set) => ({
     set((state) => ({ liked: [...state.liked, id] })),
   addAdd: (id) => set((state) => ({ added: [...state.added, id] })),
 }))
+
+export const useLikes = () => useItineraryStore((s) => s.liked.length)
+export const useAdds = () => useItineraryStore((s) => s.added.length)

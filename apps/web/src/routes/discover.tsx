@@ -4,7 +4,7 @@ import {
   type Suggestion,
   type TripCriteria,
 } from '../lib/services/suggestions'
-import { useItineraryStore } from '../stores/itineraryStore'
+import { useItineraryStore, useLikes, useAdds } from '../stores/itineraryStore'
 import { Button, Card } from '../components/ui'
 import { MIN_LIKES, MIN_ADDS } from '../lib/constants'
 import { createDraftItinerary } from '../lib/services/itinerary'

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { useToast } from '../components/ToastProvider'
 import { createDraftItinerary } from '../lib/services/itinerary'
 import { saveTrip } from '../lib/services/trip'
 import { useItineraryStore } from '../stores/itineraryStore'
@@ -75,7 +76,7 @@ export default function Draft() {
       id: 'draft',
       title: 'Draft Trip',
       description: 'Draft itinerary',
-      itinerary: { id: 'itinerary-draft', suggestions: [], days } as any,
+      itinerary: { id: 'itinerary-draft', suggestions: [], days },
     }
     await saveTrip(trip)
     toast('Trip saved')
