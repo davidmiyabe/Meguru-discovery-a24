@@ -23,8 +23,8 @@ const InviteCollaboratorsModal: React.FC<InviteCollaboratorsModalProps> = ({
   }
 
   return (
-    <Sheet open={isOpen} className="p-4 space-y-4">
-      <h2 className="text-lg font-bold">Invite Collaborators</h2>
+    <Sheet open={isOpen} className="p-4 space-y-4 fade-in">
+      <h2 className="text-lg font-display text-gold">Invite Collaborators</h2>
       <form onSubmit={handleSubmit} className="space-y-2">
         <input
           type="email"
@@ -43,10 +43,10 @@ const InviteCollaboratorsModal: React.FC<InviteCollaboratorsModalProps> = ({
           <option value="edit">Edit</option>
         </select>
         <div className="flex gap-2 justify-end">
-          <button type="button" onClick={onClose} className="px-2 py-1 border rounded">
+          <button type="button" onClick={onClose} className="px-2 py-1 rounded bg-night text-gold">
             Cancel
           </button>
-          <button type="submit" className="px-2 py-1 border rounded bg-blue-600 text-white">
+          <button type="submit" className="px-2 py-1 rounded bg-gold text-night">
             Send Invite
           </button>
         </div>
